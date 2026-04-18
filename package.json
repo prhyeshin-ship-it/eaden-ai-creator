@@ -1,0 +1,8 @@
+{
+  "name": "eaden-ai-creator",
+  "version": "1.0.0",
+  "dependencies": {
+    "nodemailer": "^6.9.13",
+    "uuid": "^9.0.1"
+  }
+}

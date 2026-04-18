@@ -1,0 +1,12 @@
+# 동영상 파일 — Vercel 100MB 제한 초과, 외부 CDN 사용 필요
+homepage/assets/video/
+
+# 로컬 백엔드 서버 (Vercel serverless는 /api/ 사용)
+backend/node_modules/
+backend/
+
+# 불필요 파일
+homepage/stitch_eaden_deep_classic_system/
+homepage/stitch_eaden_deep_classic_system.zip
+homepage/filter_test.html
+prd.md

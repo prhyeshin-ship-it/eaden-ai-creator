@@ -1,0 +1,1882 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Eaden Ai Creator — 감각을 설계하는 AI 미디어</title>
+  <meta name="description" content="오감이 반응하는 환경을 설계하는 AI 미디어 쇼케이스 및 하이엔드 아트 갤러리. 몰입에서 이완으로."/>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@2.0/nanumsquare.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <style>
+    /* ===================================
+       1. CSS VARIABLES — DESIGN TOKENS
+       (The Midnight Sanctuary palette)
+       =================================== */
+    :root {
+      /* Surface hierarchy */
+      --surface: #001427;
+      --surface-container-lowest: #000f1f;
+      --surface-container-low: #081d30;
+      --surface-container: #0c2134;
+      --surface-container-high: #182b3f;
+      --surface-container-highest: #23364a;
+      --surface-variant: #23364a;
+      --surface-bright: #283b4f;
+
+      /* Primary & accents */
+      --primary: #e8caa1;
+      --primary-container: #cbaf87;
+      --on-primary: #3f2d10;
+      --on-primary-container: #564222;
+      --primary-fixed: #fddeb3;
+
+      /* Secondary */
+      --secondary: #bcc8d6;
+      --secondary-container: #3c4854;
+      --on-secondary: #26323c;
+
+      /* Tertiary */
+      --tertiary: #d7ceb9;
+      --tertiary-container: #bbb39e;
+
+      /* Text colors */
+      --on-surface: #d1e4fe;
+      --on-surface-variant: #d0c5b8;
+      --on-background: #d1e4fe;
+
+      /* Outline */
+      --outline: #998f83;
+      --outline-variant: #4d463c;
+
+      /* Error */
+      --error: #ffb4ab;
+      --error-container: #93000a;
+      --on-error: #690005;
+
+      /* Inverse */
+      --inverse-surface: #d1e4fe;
+      --inverse-on-surface: #1f3246;
+      --inverse-primary: #715b39;
+
+      /* Typography */
+      --font-headline: 'NanumSquare', sans-serif;
+      --font-body: 'NanumSquare', sans-serif;
+
+      /* Transitions */
+      --transition-healing: 2.5s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-smooth: 0.8s ease-in-out;
+      --transition-liquid: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+      /* Ambient shadow (tinted navy, not black) */
+      --shadow-ambient: 0 8px 40px rgba(0, 20, 39, 0.4);
+      --shadow-float: 0 20px 60px rgba(0, 20, 39, 0.6);
+    }
+
+    /* ===================================
+       2. RESET & BASE
+       =================================== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      background-color: var(--surface);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-weight: 700;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--surface);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--outline-variant);
+      border-radius: 3px;
+    }
+
+    /* ===================================
+       3. GNB — GLASSMORPHISM NAVIGATION
+       =================================== */
+    .gnb {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(0, 20, 39, 0.6);
+      backdrop-filter: blur(40px);
+      -webkit-backdrop-filter: blur(40px);
+      transition: background var(--transition-liquid), box-shadow var(--transition-liquid);
+    }
+
+    .gnb.scrolled {
+      background: rgba(0, 20, 39, 0.85);
+      box-shadow: 0 1px 0 rgba(77, 70, 60, 0.15);
+    }
+
+    .gnb__inner {
+      max-width: 1440px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 3rem;
+    }
+
+    .gnb__logo {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+      font-family: var(--font-headline);
+      font-size: 1.5rem;
+      letter-spacing: 0.3em;
+      color: var(--primary);
+      font-weight: 400;
+      cursor: pointer;
+      transition: opacity var(--transition-liquid);
+      text-decoration: none;
+    }
+
+    .gnb__logo-img {
+      height: 85px;
+      mix-blend-mode: screen;
+      filter: invert(1) sepia(1) saturate(3) hue-rotate(345deg);
+      opacity: 0.9;
+    }
+
+    .gnb__logo:hover {
+      opacity: 0.8;
+    }
+
+    .gnb__nav {
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+    }
+
+    .gnb__link {
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(209, 228, 254, 0.9);
+      transition: color var(--transition-liquid);
+      position: relative;
+      font-weight: 800;
+    }
+
+    .gnb__link:hover {
+      color: var(--primary);
+    }
+
+    .gnb__link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--primary);
+      transition: width var(--transition-liquid);
+    }
+
+    .gnb__link:hover::after {
+      width: 100%;
+    }
+
+    /* Services dropdown */
+    .gnb__dropdown-wrap {
+      position: relative;
+    }
+
+    .gnb__dropdown {
+      position: absolute;
+      top: calc(100% + 16px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(24, 43, 63, 0.95);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      border: 1px solid rgba(77, 70, 60, 0.15);
+      border-radius: 4px;
+      padding: 0.75rem 0;
+      min-width: 180px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(-50%) translateY(8px);
+      transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+    }
+
+    .gnb__dropdown-wrap:hover .gnb__dropdown {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .gnb__dropdown-link {
+      display: block;
+      padding: 0.6rem 1.5rem;
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(209, 228, 254, 0.6);
+      transition: color 0.3s ease, background 0.3s ease;
+    }
+
+    .gnb__dropdown-link:hover {
+      color: var(--primary);
+      background: rgba(232, 202, 161, 0.05);
+    }
+
+    /* Hamburger (mobile) */
+    .gnb__hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+    }
+
+    .gnb__hamburger span {
+      width: 22px;
+      height: 1.5px;
+      background: var(--primary);
+      transition: all 0.3s ease;
+    }
+
+    /* Mobile sidebar */
+    .mobile-nav {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 280px;
+      height: 100vh;
+      background: rgba(8, 29, 48, 0.98);
+      backdrop-filter: blur(40px);
+      -webkit-backdrop-filter: blur(40px);
+      z-index: 2000;
+      padding: 5rem 2rem 2rem;
+      transition: right 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .mobile-nav.open {
+      right: 0;
+    }
+
+    .mobile-nav__close {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: none;
+      border: none;
+      color: var(--primary);
+      cursor: pointer;
+      font-size: 1.5rem;
+    }
+
+    .mobile-nav__link {
+      font-family: var(--font-headline);
+      font-size: 1.2rem;
+      color: rgba(209, 228, 254, 0.7);
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(77, 70, 60, 0.15);
+      transition: color 0.3s ease;
+      letter-spacing: 0.05em;
+    }
+
+    .mobile-nav__link:hover {
+      color: var(--primary);
+    }
+
+    .mobile-nav__sub {
+      padding-left: 1.5rem;
+    }
+
+    .mobile-nav__sub .mobile-nav__link {
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .mobile-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 15, 31, 0.7);
+      z-index: 1999;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+
+    .mobile-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* ===================================
+       4. HERO SECTION
+       =================================== */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      min-height: 600px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: var(--surface-container-lowest);
+    }
+
+    .hero__video-container {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+
+    .hero__video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* YouTube 배경 커버 */
+    .hero__yt-iframe {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100vw;
+      height: 56.25vw;   /* 16:9 */
+      min-height: 100vh;
+      min-width: 177.78vh; /* 16:9 역산 */
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      border: none;
+    }
+
+    .hero__bg-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.5;
+      filter: saturate(0.6);
+    }
+
+    .hero__overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(0, 20, 39, 0.3) 0%,
+        rgba(0, 20, 39, 0.5) 50%,
+        var(--surface) 100%
+      );
+      z-index: 1;
+    }
+
+    .hero__content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 900px;
+      padding: 0 2rem;
+    }
+
+    .hero__subtitle-pre {
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.3s forwards;
+    }
+
+    .hero__title {
+      font-family: var(--font-headline);
+      font-size: clamp(2.5rem, 7vw, 6rem);
+      color: var(--primary);
+      letter-spacing: 0.02em;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 1.5s cubic-bezier(0.4, 0, 0.2, 1) 0.5s forwards;
+    }
+
+    .hero__tagline {
+      font-family: var(--font-body);
+      font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+      color: rgba(209, 228, 254, 0.7);
+      font-weight: 300;
+      max-width: 600px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.8;
+      letter-spacing: 0.03em;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 1.5s cubic-bezier(0.4, 0, 0.2, 1) 0.8s forwards;
+    }
+
+    .hero__cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem 2.5rem;
+      border-radius: 100px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-container));
+      color: var(--on-primary);
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 600;
+      transition: opacity var(--transition-liquid), transform var(--transition-liquid);
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 1.5s cubic-bezier(0.4, 0, 0.2, 1) 1.1s forwards;
+      cursor: pointer;
+      border: none;
+    }
+
+    .hero__cta:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+    }
+
+    /* Mute toggle */
+    .hero__mute-btn {
+      position: absolute;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 10;
+      background: rgba(0, 20, 39, 0.6);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(77, 70, 60, 0.15);
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--primary);
+      transition: all 0.3s ease;
+    }
+
+    .hero__mute-btn:hover {
+      background: rgba(0, 20, 39, 0.8);
+      border-color: rgba(232, 202, 161, 0.3);
+    }
+
+    /* Scroll indicator */
+    .hero__scroll-indicator {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      opacity: 0;
+      animation: fadeInUp 1s ease 2s forwards;
+    }
+
+    .hero__scroll-text {
+      font-family: var(--font-body);
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(209, 228, 254, 0.4);
+    }
+
+    .hero__scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--primary), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(0.6); }
+      50% { opacity: 1; transform: scaleY(1); }
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ===================================
+       5. SECTION COMMON STYLES
+       =================================== */
+    .section {
+      position: relative;
+      padding: 8rem 0;
+    }
+
+    .section__container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 3rem;
+    }
+
+    .section__label {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .section__label-line {
+      width: 48px;
+      height: 1px;
+      background: var(--primary);
+    }
+
+    .section__label-text {
+      font-family: var(--font-body);
+      font-size: 1.1rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--primary);
+      font-weight: 800;
+    }
+
+    .section__title {
+      font-family: var(--font-headline);
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      color: var(--on-surface);
+      line-height: 1.2;
+      letter-spacing: 0.02em;
+      margin-bottom: 1.5rem;
+    }
+
+    .section__title em {
+      color: var(--primary);
+      font-style: italic;
+    }
+
+    .section__desc {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: rgba(209, 228, 254, 0.7);
+      line-height: 1.8;
+      max-width: 560px;
+      font-weight: 300;
+    }
+
+    /* Fade-in animation for sections */
+    .fade-section {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .fade-section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===================================
+       6. ABOUT SECTION
+       =================================== */
+    .about {
+      background: var(--surface-container-low);
+    }
+
+    .about__grid {
+      display: flex;
+      gap: 4rem;
+      align-items: stretch;
+    }
+
+    .about__image-wrap {
+      flex: 0 0 45%;
+      position: relative;
+    }
+
+    .about__gold-accent {
+      position: absolute;
+      left: -1rem;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: rgba(232, 202, 161, 0.4);
+    }
+
+    .about__image {
+      width: 100%;
+      height: 100%;
+      min-height: 400px;
+      object-fit: cover;
+      border-radius: 2px;
+      filter: grayscale(0.2);
+      transition: filter var(--transition-smooth);
+    }
+
+    .about__image:hover {
+      filter: grayscale(0);
+    }
+
+    .about__text {
+      flex: 1;
+      padding-left: 1rem;
+    }
+
+    .about__features {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      margin-top: 2.5rem;
+    }
+
+    .about__feature {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .about__feature-icon {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--surface-container-high);
+      border-radius: 4px;
+      color: var(--primary);
+    }
+
+    .about__feature-text h4 {
+      font-family: var(--font-headline);
+      font-size: 1rem;
+      color: var(--on-surface);
+      margin-bottom: 0.25rem;
+    }
+
+    .about__feature-text p {
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      color: rgba(209, 228, 254, 0.5);
+      font-weight: 300;
+      line-height: 1.6;
+    }
+
+    /* ===================================
+       7. SERVICES — AI MEDIA
+       =================================== */
+    .services-media {
+      background: var(--surface);
+    }
+
+    .services-media__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 4rem;
+    }
+
+    .services-media__view-all {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #001427;
+      background: linear-gradient(135deg, #f3dcb8, #cfa875);
+      padding: 1rem 3rem;
+      border-radius: 8px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 
+        inset 0 1px 2px rgba(255, 255, 255, 0.8),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.2),
+        0 4px 15px rgba(232, 202, 161, 0.5),
+        0 0 25px rgba(232, 202, 161, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      text-shadow: 0 1px 1px rgba(255, 255, 255, 0.3);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .services-media__view-all:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 
+        inset 0 1px 2px rgba(255, 255, 255, 0.9),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.2),
+        0 6px 20px rgba(232, 202, 161, 0.7),
+        0 0 35px rgba(232, 202, 161, 0.4);
+      color: #001427;
+    }
+
+    .media-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .media-card {
+      cursor: pointer;
+      position: relative;
+    }
+
+    .media-card__thumb {
+      position: relative;
+      height: 380px;
+      overflow: hidden;
+      background: var(--surface-container-low);
+      border-radius: 2px;
+      margin-bottom: 1.25rem;
+    }
+
+    .media-card__img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(0.8);
+      transition: filter 0.8s ease, transform 1s ease;
+    }
+
+    .media-card:hover .media-card__img {
+      filter: grayscale(0);
+      transform: scale(1.05);
+    }
+
+    .media-card__overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 20, 39, 0.25);
+      transition: background 0.5s ease;
+    }
+
+    .media-card:hover .media-card__overlay {
+      background: transparent;
+    }
+
+    .media-card__play {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.8);
+      width: 56px;
+      height: 56px;
+      background: rgba(0, 20, 39, 0.6);
+      backdrop-filter: blur(10px);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      opacity: 0;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .media-card:hover .media-card__play {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .media-card__category {
+      font-family: var(--font-body);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 0.4rem;
+      font-weight: 500;
+    }
+
+    .media-card__title {
+      font-family: var(--font-headline);
+      font-size: 1.5rem;
+      color: var(--on-surface);
+      margin-top: 1.2rem;
+      margin-bottom: 0.4rem;
+      font-weight: 700;
+    }
+
+    .media-card__desc {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      color: rgba(209, 228, 254, 0.5);
+      font-weight: 300;
+      line-height: 1.5;
+    }
+
+    /* ===================================
+       8. SERVICES — AI IMAGE (GALLERY)
+       =================================== */
+    .services-image {
+      background: var(--surface-container-low);
+    }
+
+    .services-image__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 4rem;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: auto auto;
+      gap: 2rem;
+    }
+
+    .gallery-card {
+      position: relative;
+      cursor: pointer;
+      overflow: hidden;
+      border-radius: 2px;
+      background: var(--surface-container);
+    }
+
+    .gallery-card:nth-child(1) {
+      grid-row: span 2;
+    }
+
+    .gallery-card__img {
+      width: 100%;
+      height: 100%;
+      min-height: 350px;
+      object-fit: cover;
+      transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .gallery-card:nth-child(1) .gallery-card__img {
+      min-height: 100%;
+    }
+
+    .gallery-card:hover .gallery-card__img {
+      transform: scale(1.05);
+    }
+
+    .gallery-card__info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 2rem;
+      background: linear-gradient(to top, rgba(0, 20, 39, 0.85), transparent);
+      transform: translateY(20px);
+      opacity: 0;
+      transition: all 0.5s ease;
+    }
+
+    .gallery-card:hover .gallery-card__info {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .gallery-card__category {
+      font-family: var(--font-body);
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 0.3rem;
+    }
+
+    .gallery-card__title {
+      font-family: var(--font-headline);
+      font-size: 1.3rem;
+      color: var(--on-surface);
+      margin-bottom: 0.4rem;
+    }
+
+    .gallery-card__desc {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      color: rgba(209, 228, 254, 0.6);
+      font-weight: 300;
+      line-height: 1.5;
+    }
+
+    /* ===================================
+       9. CONTACT SECTION
+       =================================== */
+    .contact {
+      background: var(--surface);
+    }
+
+    .contact__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .contact__info {
+      padding-top: 1rem;
+    }
+
+    .contact__info-text {
+      font-family: var(--font-body);
+      font-size: 1.15rem;
+      color: rgba(209, 228, 254, 0.8);
+      font-weight: 500;
+      line-height: 1.8;
+      margin-bottom: 3rem;
+    }
+
+    .contact__detail {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .contact__detail-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--surface-container-high);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      flex-shrink: 0;
+    }
+
+    .contact__detail-text {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: rgba(209, 228, 254, 0.8);
+      font-weight: 500;
+    }
+
+    .contact__form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .form-group label {
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--tertiary);
+      font-weight: 700;
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+      background: var(--surface-container-highest);
+      border: 1px solid transparent;
+      border-radius: 4px;
+      padding: 1.1rem 1rem;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--on-surface);
+      transition: border-color 0.3s ease;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      border-color: rgba(232, 202, 161, 0.4);
+    }
+
+    .form-input::placeholder,
+    .form-textarea::placeholder {
+      color: rgba(209, 228, 254, 0.25);
+    }
+
+    .form-select {
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23e8caa1' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      padding-right: 2.5rem;
+    }
+
+    .form-select option {
+      background: var(--surface-container-highest);
+      color: var(--on-surface);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 140px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .form-submit {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 1rem 2.5rem;
+      border-radius: 100px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-container));
+      color: var(--on-primary);
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: opacity var(--transition-liquid), transform var(--transition-liquid);
+      align-self: flex-start;
+      margin-top: 0.5rem;
+    }
+
+    .form-submit:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+    }
+
+    /* Success state */
+    .contact__success {
+      display: none;
+      text-align: center;
+      padding: 3rem;
+    }
+
+    .contact__success.show {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .contact__success-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: rgba(232, 202, 161, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .contact__success h3 {
+      font-family: var(--font-headline);
+      font-size: 1.5rem;
+      color: var(--on-surface);
+    }
+
+    .contact__success p {
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      color: rgba(209, 228, 254, 0.6);
+      font-weight: 300;
+    }
+
+    /* ===================================
+       10. FOOTER
+       =================================== */
+    .footer {
+      background: var(--surface-container-low);
+      padding: 4rem 0;
+    }
+
+    .footer__inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer__logo {
+      font-family: var(--font-headline);
+      font-size: 1.1rem;
+      letter-spacing: 0.3em;
+      color: var(--primary);
+    }
+
+    .footer__links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .footer__link {
+      font-family: var(--font-body);
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(209, 228, 254, 0.35);
+      transition: color 0.5s ease;
+    }
+
+    .footer__link:hover {
+      color: var(--primary);
+    }
+
+    .footer__copy {
+      font-family: var(--font-body);
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--primary);
+    }
+
+    /* ===================================
+       11. IMMERSIVE VIEWER MODAL
+       =================================== */
+    .viewer {
+      position: fixed;
+      inset: 0;
+      z-index: 3000;
+      background: rgba(0, 15, 31, 0.95);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+
+    .viewer.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .viewer__close {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      background: rgba(0, 20, 39, 0.6);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(77, 70, 60, 0.15);
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: background 0.3s ease;
+    }
+
+    .viewer__close:hover {
+      background: rgba(0, 20, 39, 0.9);
+    }
+
+    .viewer__content {
+      max-width: 90vw;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .viewer__image {
+      max-width: 100%;
+      max-height: 75vh;
+      object-fit: contain;
+      border-radius: 2px;
+    }
+
+    .viewer__caption {
+      text-align: center;
+    }
+
+    .viewer__caption-title {
+      font-family: var(--font-headline);
+      font-size: 1.3rem;
+      color: var(--on-surface);
+      margin-bottom: 0.3rem;
+    }
+
+    .viewer__caption-desc {
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      color: rgba(209, 228, 254, 0.5);
+      font-weight: 300;
+    }
+
+    /* ===================================
+       12. RESPONSIVE
+       =================================== */
+    @media (max-width: 1024px) {
+      .media-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery-card:nth-child(1) {
+        grid-row: span 1;
+      }
+
+      .gallery-card__img {
+        height: 350px;
+      }
+
+      .contact__grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .gnb__nav {
+        display: none;
+      }
+
+      .gnb__hamburger {
+        display: flex;
+      }
+
+      .gnb__inner {
+        padding: 1.2rem 1.5rem;
+      }
+
+      .section {
+        padding: 5rem 0;
+      }
+
+      .section__container {
+        padding: 0 1.5rem;
+      }
+
+      .about__grid {
+        flex-direction: column;
+        gap: 2.5rem;
+      }
+
+      .about__image-wrap {
+        flex: none;
+        width: 100%;
+      }
+
+      .about__image {
+        height: 350px;
+      }
+
+      .about__text {
+        padding-left: 0;
+      }
+
+      .media-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+
+      .media-card__thumb {
+        height: 280px;
+      }
+
+      .gallery-card__img {
+        height: 280px;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .footer__inner {
+        flex-direction: column;
+        gap: 2rem;
+        text-align: center;
+        padding: 0 1.5rem;
+      }
+
+      .footer__links {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .hero__mute-btn {
+        bottom: 1.5rem;
+        right: 1.5rem;
+        width: 40px;
+        height: 40px;
+      }
+
+      .services-media__header,
+      .services-image__header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+    }
+
+    /* ===================================
+       13. UTILITY ANIMATIONS
+       =================================== */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .stagger-1 { transition-delay: 0.1s; }
+    .stagger-2 { transition-delay: 0.2s; }
+    .stagger-3 { transition-delay: 0.3s; }
+    .stagger-4 { transition-delay: 0.4s; }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================
+       GNB — GLASSMORPHISM NAVIGATION
+       ======================================== -->
+  <nav class="gnb" id="gnb">
+    <div class="gnb__inner">
+      <a class="gnb__logo" href="#hero" id="logo">
+        <img src="assets/Logo_eaden.png" class="gnb__logo-img" alt="EADEN Logo" />
+      </a>
+      <div class="gnb__nav" id="gnbNav">
+        <a class="gnb__link" href="#about">About</a>
+        <div class="gnb__dropdown-wrap">
+          <a class="gnb__link" href="#services-media">Services</a>
+          <div class="gnb__dropdown">
+            <a class="gnb__dropdown-link" href="#services-media">Ai Media</a>
+            <a class="gnb__dropdown-link" href="#services-image">Ai Image</a>
+          </div>
+        </div>
+        <a class="gnb__link" href="#contact">Contact</a>
+      </div>
+      <button class="gnb__hamburger" id="hamburgerBtn" aria-label="메뉴 열기">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Sidebar -->
+  <div class="mobile-overlay" id="mobileOverlay"></div>
+  <div class="mobile-nav" id="mobileNav">
+    <button class="mobile-nav__close" id="mobileClose" aria-label="메뉴 닫기">
+      <span class="material-symbols-outlined">close</span>
+    </button>
+    <a class="mobile-nav__link" href="#about" onclick="closeMobileNav()">About</a>
+    <a class="mobile-nav__link" href="#services-media" onclick="closeMobileNav()">Services</a>
+    <div class="mobile-nav__sub">
+      <a class="mobile-nav__link" href="#services-media" onclick="closeMobileNav()">Ai Media</a>
+      <a class="mobile-nav__link" href="#services-image" onclick="closeMobileNav()">Ai Image</a>
+    </div>
+    <a class="mobile-nav__link" href="#contact" onclick="closeMobileNav()">Contact</a>
+  </div>
+
+  <!-- ========================================
+       HERO SECTION
+       ======================================== -->
+  <section class="hero" id="hero">
+    <div class="hero__video-container">
+      <iframe id="ytPlayer" class="hero__yt-iframe"
+        src="https://www.youtube.com/embed/jKe5MiMtk-Q?autoplay=1&mute=1&loop=1&playlist=jKe5MiMtk-Q&controls=0&rel=0&modestbranding=1&iv_load_policy=3&enablejsapi=1&origin=https://claude-six-kappa.vercel.app"
+        allow="autoplay; encrypted-media"
+        allowfullscreen
+        title="Eaden Hero Video">
+      </iframe>
+    </div>
+    <div class="hero__overlay"></div>
+
+    <button class="hero__mute-btn" id="muteBtn" aria-label="사운드 토글">
+      <span class="material-symbols-outlined" id="muteIcon">volume_off</span>
+    </button>
+  </section>
+
+  <!-- ========================================
+       ABOUT SECTION
+       ======================================== -->
+  <section class="section about" id="about">
+    <div class="section__container">
+      <div class="about__grid fade-section">
+        <div class="about__image-wrap">
+          <div class="about__gold-accent"></div>
+          <img class="about__image"
+               src="assets/image/about.png"
+               alt="Eaden AI Creator studio environment"/>
+        </div>
+        <div class="about__text">
+          <div class="section__label">
+            <div class="section__label-line"></div>
+            <span class="section__label-text" style="font-size: 1rem; font-weight: 800;">About Eaden</span>
+          </div>
+          <h2 class="section__title" style="margin-bottom: 2.5rem; word-break: keep-all; font-size: clamp(2rem, 3.5vw, 3.2rem); line-height: 1.3;">
+            이완의 순간까지 디자인하는<br/>프리미엄 미디어 아트
+          </h2>
+          <div class="section__desc" style="font-weight: 700; max-width: 100%; font-size: 1.05rem; color: rgba(209, 228, 254, 0.9); line-height: 1.9; word-break: keep-all; text-align: justify;">
+            Eaden은 단순한 '보는 영상'을 넘어 오감이 반응하는 정교한 미디어 환경을 설계하며, 관객의 심리를 몰입에서 이완으로 전환시키는 감각적 전이를 통해 공간에 머무는 것만으로도 깊은 정서적 환기를 경험하게 합니다. 일상의 무한한 루틴과 스트레스를 예술적 질감과 리듬으로 해체하여, 당신의 공간에 현실을 벗어난 '살아있는 탈출구'를 선사하며 실질적인 공간의 에너지와 감성을 바꿉니다.<br><br>
+            합리적인 가격으로 하이엔드 AI 아트 프린트를 공급함으로써 프리미엄 예술의 대중화를 선도하고, 논리로 설명할 수 없는 깊은 안정과 머무름의 가치를 일상 공간에서 누릴 수 있도록 합니다. 개인의 소중한 기억 복원부터 숏츠, 광고, 브랜드 필름까지 AI 기술 기반의 폭넓은 제작 역량으로 개인과 기업 모두의 다양한 미디어 니즈를 하나의 파트너십으로 해결합니다.<br><br>
+            Eaden은 예술, 기술, 공간이 유기적으로 연결되는 미디어 경험을 설계하며, 기업의 영속적인 비전부터 개인의 가장 특별한 순간까지 무의식이 먼저 반응하는 브랜드 가치를 함께 완성해 나갑니다.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================
+       SERVICES — AI MEDIA
+       ======================================== -->
+  <section class="section services-media" id="services-media">
+    <div class="section__container">
+      <div class="services-media__header fade-section">
+        <div>
+          <div class="section__label">
+            <div class="section__label-line"></div>
+            <span class="section__label-text">Services</span>
+          </div>
+          <h2 class="section__title">Ai Media</h2>
+          <div class="section__desc" style="max-width: 800px; text-align: justify; word-break: keep-all; line-height: 1.8;">
+            Eaden은 AI 툴을 활용하여 합리적인 비용과 빠른 속도로 하이엔드 결과물을 도출하며, 낡은 사진 속 인물과 배경에 숨을 불어넣는 정교한 복원부터 브랜드 필름까지 폭넓은 스펙트럼의 미디어 제작을 제공합니다. 광고를 '공격적 정보'가 아닌 '치유적 경험'으로 전환하는 심리적 전이 기술을 적용하여, 소비자가 거부감 없이 자연스럽게 브랜드의 메시지에 몰입하도록 설계합니다.<br><br>
+            유튜브, 인스타그램, 틱톡 등 각 플랫폼의 특성에 최적화된 감각적 영상 제작은 물론, 실제 오프라인 공간의 조명과 동선까지 고려한 환경 맞춤형 큐레이션으로 공간의 가치를 함께 높입니다. 나아가 트렌드에 발맞춰 숏츠와 홍보 영상을 주기적으로 생산하는 지속 가능한 미디어 솔루션을 통해, 브랜드의 활력을 장기적으로 유지하는 신뢰할 수 있는 파트너가 되겠습니다.
+          </div>
+        </div>
+        <a class="services-media__view-all" href="#contact">
+          문의하기 <span class="material-symbols-outlined" style="font-size: 14px;">arrow_forward</span>
+        </a>
+      </div>
+
+      <div class="media-grid fade-section">
+        <!-- Card 1 -->
+        <div class="media-card stagger-1" onclick="openViewer('assets/image/media_brand_film.png', 'Brand Film', '')">
+          <div class="media-card__thumb">
+            <img class="media-card__img" src="assets/image/media_brand_film.png" alt="Brand Film"/>
+            <div class="media-card__overlay"></div>
+            <div class="media-card__play">
+               <span class="material-symbols-outlined">play_arrow</span>
+            </div>
+          </div>
+          <h3 class="media-card__title">Brand Film</h3>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="media-card stagger-2" onclick="openViewer('assets/image/media_photo_restore.png', 'Photo Restoration', '')">
+          <div class="media-card__thumb">
+            <img class="media-card__img" src="assets/image/media_photo_restore.png" alt="Photo Restoration"/>
+            <div class="media-card__overlay"></div>
+            <div class="media-card__play">
+              <span class="material-symbols-outlined">play_arrow</span>
+            </div>
+          </div>
+          <h3 class="media-card__title">Photo Restoration</h3>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="media-card stagger-3" onclick="openViewer('assets/image/media_shorts.png', 'Short Form Content', '')">
+          <div class="media-card__thumb">
+            <img class="media-card__img" src="assets/image/media_shorts.png" alt="Short Form Content"/>
+            <div class="media-card__overlay"></div>
+            <div class="media-card__play">
+              <span class="material-symbols-outlined">play_arrow</span>
+            </div>
+          </div>
+          <h3 class="media-card__title">Short Form Content</h3>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================
+       SERVICES — AI IMAGE (GALLERY)
+       ======================================== -->
+  <section class="section services-image" id="services-image">
+    <div class="section__container">
+      <div class="services-image__header fade-section">
+        <div>
+          <div class="section__label">
+            <div class="section__label-line"></div>
+            <span class="section__label-text">Gallery</span>
+          </div>
+          <h2 class="section__title">Ai Image</h2>
+          <div class="section__desc" style="max-width: 800px; text-align: justify; word-break: keep-all; line-height: 1.8;">
+            합리적인 가격 너머, 수천만 원대 하이엔드 아트의 감각을 일상으로 끌어들이는 Eaden의 AI 아트는 개인의 주거 공간과 기업의 벽면을 단순한 인테리어가 아닌 살아 숨 쉬는 예술의 무대로 완성합니다. 디지털의 정교한 알고리즘과 아날로그적 물성이 빚어내는 독보적인 질감은, 논리가 아닌 감각으로 먼저 반응하게 하며 그 공간에 머무는 이유를 스스로 만들어냅니다.<br><br>
+            설명이 필요 없는 안도감, 설계된 듯 자연스러운 고요함 — Eaden의 AI 아트는 공간의 품격을 조용히, 그러나 압도적으로 끌어올리는 고품격 브랜딩 솔루션입니다.
+          </div>
+        </div>
+        <a class="services-media__view-all" href="#contact">
+          구매 문의 <span class="material-symbols-outlined" style="font-size: 14px;">arrow_forward</span>
+        </a>
+      </div>
+
+      <div class="gallery-grid fade-section">
+        <!-- Art 1 (large) -->
+        <div class="gallery-card stagger-1" onclick="openViewer('assets/image/art_stillness.png', 'Texture of Stillness', '설명이 필요 없는 안도감을 선사하는 하이엔드 AI 아트')">
+          <img class="gallery-card__img" src="assets/image/art_stillness.png" alt="Texture of Stillness"/>
+          <div class="gallery-card__info">
+            <span class="gallery-card__category">High-End Art</span>
+            <h3 class="gallery-card__title">Texture of Stillness</h3>
+            <p class="gallery-card__desc">설명이 필요 없는 안도감을 선사하는 하이엔드 AI 아트</p>
+          </div>
+        </div>
+
+        <!-- Art 2 -->
+        <div class="gallery-card stagger-2" onclick="openViewer('assets/image/art_resonance.png', 'Inner Resonance', '공간에 명상적 깊이를 더하는 빛의 조형')">
+          <img class="gallery-card__img" src="assets/image/art_resonance.png" alt="Inner Resonance"/>
+          <div class="gallery-card__info">
+            <span class="gallery-card__category">Light Installation</span>
+            <h3 class="gallery-card__title">Inner Resonance</h3>
+            <p class="gallery-card__desc">공간에 명상적 깊이를 더하는 빛의 조형</p>
+          </div>
+        </div>
+
+        <!-- Art 3 -->
+        <div class="gallery-card stagger-3" onclick="openViewer('assets/image/art_horizon.png', 'Distant Horizon', '대기의 층위가 만들어내는 치유의 풍경')">
+          <img class="gallery-card__img" src="assets/image/art_horizon.png" alt="Distant Horizon"/>
+          <div class="gallery-card__info">
+            <span class="gallery-card__category">Landscape</span>
+            <h3 class="gallery-card__title">Distant Horizon</h3>
+            <p class="gallery-card__desc">대기의 층위가 만들어내는 치유의 풍경</p>
+          </div>
+        </div>
+
+        <!-- Art 4 -->
+        <div class="gallery-card stagger-4" onclick="openViewer('assets/image/art_essence.png', 'Golden Essence', '일본 킨츠기에서 영감받은 금빛 균열의 아름다움')">
+          <img class="gallery-card__img" src="assets/image/art_essence.png" alt="Golden Essence" style="min-height: 350px;"/>
+          <div class="gallery-card__info">
+            <span class="gallery-card__category">Abstract</span>
+            <h3 class="gallery-card__title">Golden Essence</h3>
+            <p class="gallery-card__desc">일본 킨츠기에서 영감받은 금빛 균열의 아름다움</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================
+       CONTACT SECTION
+       ======================================== -->
+  <section class="section contact" id="contact">
+    <div class="section__container">
+      <div class="contact__grid fade-section">
+        <div class="contact__info">
+          <div class="section__label">
+            <div class="section__label-line"></div>
+            <span class="section__label-text">Contact</span>
+          </div>
+          <h2 class="section__title">
+            프로젝트를 함께<br/>시작하세요.
+          </h2>
+          <p class="contact__info-text">
+            AI 미디어 제작, 아트 프린트 구매, 사진 복원 등<br/>
+            어떤 프로젝트든 Eaden과 함께 시작하세요.<br/>
+            빠른 시간 내에 담당자가 연락드리겠습니다.
+          </p>
+
+          <div class="contact__detail">
+            <div class="contact__detail-icon">
+              <span class="material-symbols-outlined" style="font-size: 18px;">mail</span>
+            </div>
+            <span class="contact__detail-text">eaden2026@gmail.com</span>
+          </div>
+          <div class="contact__detail">
+            <div class="contact__detail-icon">
+              <span class="material-symbols-outlined" style="font-size: 18px;">schedule</span>
+            </div>
+            <span class="contact__detail-text">응답 시간: 영업일 기준 24시간 이내</span>
+          </div>
+        </div>
+
+        <div>
+          <form class="contact__form" id="contactForm">
+            <div class="form-group">
+              <label for="inquiryType">문의 유형</label>
+              <select class="form-select" id="inquiryType" required>
+                <option value="" disabled selected>문의 유형을 선택해 주세요</option>
+                <option value="영상 제작 문의">영상 제작 문의</option>
+                <option value="아트 프린트 구매">아트 프린트 구매</option>
+                <option value="사진 복원 의뢰">사진 복원 의뢰</option>
+                <option value="기타 파트너십">기타 파트너십</option>
+              </select>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="userName">이름</label>
+                <input class="form-input" type="text" id="userName" placeholder="홍길동" required/>
+              </div>
+              <div class="form-group">
+                <label for="userContact">연락처</label>
+                <input class="form-input" type="tel" id="userContact" placeholder="010-0000-0000" required/>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="userEmail">이메일</label>
+              <input class="form-input" type="email" id="userEmail" placeholder="email@example.com"/>
+            </div>
+
+            <div class="form-group">
+              <label for="userMessage">메시지</label>
+              <textarea class="form-textarea" id="userMessage" placeholder="프로젝트에 대해 알려주세요..." required></textarea>
+            </div>
+
+            <button type="submit" class="form-submit" id="submitBtn">
+              문의 보내기
+              <span class="material-symbols-outlined" style="font-size: 16px;">send</span>
+            </button>
+          </form>
+
+          <div class="contact__success" id="contactSuccess">
+            <div class="contact__success-icon">
+              <span class="material-symbols-outlined" style="font-size: 28px;">check_circle</span>
+            </div>
+            <h3>문의가 접수되었습니다</h3>
+            <p>빠른 시간 내에 담당자가 연락드리겠습니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================
+       FOOTER
+       ======================================== -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <span class="footer__logo">EADEN</span>
+      <div class="footer__links">
+        <a class="footer__link" href="#">Privacy</a>
+        <a class="footer__link" href="#">Terms</a>
+        <a class="footer__link" href="https://www.youtube.com/@eaden2026" target="_blank" rel="noopener noreferrer">YouTube</a>
+        <a class="footer__link" href="#">Facebook</a>
+      </div>
+      <span class="footer__copy">© 2026 Eaden Ai Creator. All rights reserved.</span>
+    </div>
+  </footer>
+
+  <!-- ========================================
+       IMMERSIVE VIEWER MODAL
+       ======================================== -->
+  <div class="viewer" id="viewer">
+    <button class="viewer__close" id="viewerClose" aria-label="닫기">
+      <span class="material-symbols-outlined">close</span>
+    </button>
+    <div class="viewer__content">
+      <img class="viewer__image" id="viewerImage" src="" alt=""/>
+      <div class="viewer__caption">
+        <h3 class="viewer__caption-title" id="viewerTitle"></h3>
+        <p class="viewer__caption-desc" id="viewerDesc"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================
+       JAVASCRIPT
+       ======================================== -->
+  <script>
+    // ========================================
+    // 1. GNB SCROLL EFFECT
+    // ========================================
+    const gnb = document.getElementById('gnb');
+    let lastScroll = 0;
+
+    window.addEventListener('scroll', () => {
+      const currentScroll = window.scrollY;
+      if (currentScroll > 80) {
+        gnb.classList.add('scrolled');
+      } else {
+        gnb.classList.remove('scrolled');
+      }
+      lastScroll = currentScroll;
+    });
+
+    // ========================================
+    // 2. MOBILE NAV
+    // ========================================
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const mobileNav = document.getElementById('mobileNav');
+    const mobileOverlay = document.getElementById('mobileOverlay');
+    const mobileClose = document.getElementById('mobileClose');
+
+    function openMobileNav() {
+      mobileNav.classList.add('open');
+      mobileOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMobileNav() {
+      mobileNav.classList.remove('open');
+      mobileOverlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    hamburgerBtn.addEventListener('click', openMobileNav);
+    mobileClose.addEventListener('click', closeMobileNav);
+    mobileOverlay.addEventListener('click', closeMobileNav);
+
+    // ========================================
+    // 3. HERO VIDEO / MUTE TOGGLE (YouTube IFrame API)
+    // ========================================
+    const muteBtn = document.getElementById('muteBtn');
+    const muteIcon = document.getElementById('muteIcon');
+    let isMuted = true;
+    let ytPlayer = null;
+
+    // YouTube IFrame API 로드
+    const ytScript = document.createElement('script');
+    ytScript.src = 'https://www.youtube.com/iframe_api';
+    document.head.appendChild(ytScript);
+
+    window.onYouTubeIframeAPIReady = function () {
+      ytPlayer = new YT.Player('ytPlayer', {
+        events: {
+          onReady: (e) => e.target.mute(),
+        },
+      });
+    };
+
+    muteBtn.addEventListener('click', () => {
+      if (!ytPlayer) return;
+      isMuted = !isMuted;
+      isMuted ? ytPlayer.mute() : ytPlayer.unMute();
+      muteIcon.textContent = isMuted ? 'volume_off' : 'volume_up';
+    });
+
+    // ========================================
+    // 4. SCROLL FADE-IN (IntersectionObserver)
+    // ========================================
+    const fadeElements = document.querySelectorAll('.fade-section');
+
+    const fadeObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, {
+      threshold: 0.15,
+      rootMargin: '0px 0px -50px 0px'
+    });
+
+    fadeElements.forEach(el => fadeObserver.observe(el));
+
+    // ========================================
+    // 5. IMMERSIVE VIEWER MODAL
+    // ========================================
+    const viewer = document.getElementById('viewer');
+    const viewerClose = document.getElementById('viewerClose');
+    const viewerImage = document.getElementById('viewerImage');
+    const viewerTitle = document.getElementById('viewerTitle');
+    const viewerDesc = document.getElementById('viewerDesc');
+
+    function openViewer(src, title, desc) {
+      viewerImage.src = src;
+      viewerImage.alt = title;
+      viewerTitle.textContent = title;
+      viewerDesc.textContent = desc;
+      viewer.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeViewer() {
+      viewer.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    viewerClose.addEventListener('click', closeViewer);
+    viewer.addEventListener('click', (e) => {
+      if (e.target === viewer) closeViewer();
+    });
+
+    // ESC key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeViewer();
+        closeMobileNav();
+      }
+    });
+
+    // ========================================
+    // 6. CONTACT FORM SUBMIT
+    // ========================================
+    const contactForm = document.getElementById('contactForm');
+    const contactSuccess = document.getElementById('contactSuccess');
+
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      // UI-only success state
+      contactForm.style.display = 'none';
+      contactSuccess.classList.add('show');
+    });
+
+    // ========================================
+    // 7. SMOOTH SCROLL for all anchor links
+    // ========================================
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          const offset = gnb.offsetHeight;
+          const targetPosition = target.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
