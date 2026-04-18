@@ -2,6 +2,7 @@
   "name": "eaden-ai-creator",
   "version": "1.0.0",
   "dependencies": {
+    "@supabase/supabase-js": "^2.49.4",
     "nodemailer": "^6.9.13",
     "uuid": "^9.0.1"
   }
