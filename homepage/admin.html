@@ -152,22 +152,35 @@
       errorDiv.textContent = '불러오는 중...';
       
       try {
-        const res = await fetch('/api/admin', {
-          headers: {
-            'Authorization': `Bearer ${currentPassword}`
+        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:';
+        const apiUrl = isLocal ? '/api/admin' : '/api/admin'; // Vercel 환경 기본값
+
+        let data = {};
+        
+        try {
+          const res = await fetch(apiUrl, {
+            headers: {
+              'Authorization': `Bearer ${currentPassword}`
+            }
+          });
+
+          if (res.status === 401) {
+            errorDiv.textContent = '비밀번호가 일치하지 않습니다.';
+            return;
           }
-        });
 
-        if (res.status === 401) {
-          errorDiv.textContent = '비밀번호가 일치하지 않습니다.';
-          return;
+          if (!res.ok) {
+            throw new Error('서버 오류가 발생했습니다.');
+          }
+
+          data = await res.json();
+        } catch (err) {
+          // 서버 연결 실패 시 브라우저 수첩(localStorage)에서 데이터 꺼내오기!
+          console.log("서버를 찾을 수 없어 브라우저 임시 저장소에서 불러옵니다.");
+          data = {
+            submissions: JSON.parse(localStorage.getItem('eaden_inquiries') || '[]')
+          };
         }
-
-        if (!res.ok) {
-          throw new Error('서버 오류가 발생했습니다.');
-        }
-
-        const data = await res.json();
         
         // Success
         authSection.style.display = 'none';
@@ -196,7 +209,7 @@
         });
 
       } catch (err) {
-        errorDiv.textContent = err.message;
+        errorDiv.textContent = err.message || '데이터를 불러오지 못했습니다.';
       }
     }
   </script>

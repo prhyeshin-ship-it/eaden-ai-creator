@@ -1870,12 +1870,56 @@
     const contactForm = document.getElementById('contactForm');
     const contactSuccess = document.getElementById('contactSuccess');
 
-    contactForm.addEventListener('submit', (e) => {
+    contactForm.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      // UI-only success state
-      contactForm.style.display = 'none';
-      contactSuccess.classList.add('show');
+      const submitBtn = document.getElementById('submitBtn');
+      const originalText = submitBtn.innerHTML;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '처리 중...';
+
+      const payload = {
+        inquiry_type: document.getElementById('inquiryType').value,
+        name: document.getElementById('userName').value,
+        contact: document.getElementById('userContact').value,
+        message: document.getElementById('userMessage').value,
+      };
+
+      const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:';
+      const apiUrl = isLocal ? '/api/contact' : '/api/contact'; // 로컬 서버 없이 파일로만 열 때는 굳이 localhost:4000 안찾도록 원복
+
+      try {
+        const res = await fetch(apiUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+          contactForm.style.display = 'none';
+          contactSuccess.classList.add('show');
+        } else {
+          const data = await res.json();
+          alert(data.error || '접수 중 오류가 발생했습니다.');
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalText;
+        }
+      } catch (err) {
+        // 서버가 없는 로컬(내 컴퓨터)에서 HTML 파일만 열어서 테스트할 때를 위한 임시 저장 기능 (브라우저 수첩에 저장!)
+        console.log("서버를 찾을 수 없어 브라우저 임시 저장소에 저장합니다.");
+        const inquiries = JSON.parse(localStorage.getItem('eaden_inquiries') || '[]');
+        inquiries.unshift({
+          created_at: new Date().toISOString(),
+          inquiry_type: payload.inquiry_type,
+          name: payload.name,
+          contact: payload.contact,
+          message: payload.message
+        });
+        localStorage.setItem('eaden_inquiries', JSON.stringify(inquiries));
+        
+        contactForm.style.display = 'none';
+        contactSuccess.classList.add('show');
+      }
     });
 
     // ========================================
