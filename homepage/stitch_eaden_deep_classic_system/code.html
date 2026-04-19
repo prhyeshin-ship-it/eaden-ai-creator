@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EADEN - The Midnight Sanctuary</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&amp;family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-tertiary-fixed": "#1f1b0e",
+                        "primary-container": "#cbaf87",
+                        "on-primary-container": "#564222",
+                        "surface-container-high": "#182b3f",
+                        "surface-bright": "#283b4f",
+                        "on-tertiary": "#353021",
+                        "on-error-container": "#ffdad6",
+                        "on-background": "#d1e4fe",
+                        "inverse-on-surface": "#1f3246",
+                        "surface-variant": "#23364a",
+                        "surface-container-highest": "#23364a",
+                        "outline-variant": "#4d463c",
+                        "on-secondary-fixed": "#111d27",
+                        "surface-container-lowest": "#000f1f",
+                        "tertiary-container": "#bbb39e",
+                        "primary-fixed-dim": "#dfc299",
+                        "on-tertiary-fixed-variant": "#4c4636",
+                        "on-secondary-container": "#aab6c4",
+                        "background": "#001427",
+                        "tertiary-fixed-dim": "#cec6b1",
+                        "error-container": "#93000a",
+                        "tertiary-fixed": "#ebe2cc",
+                        "outline": "#998f83",
+                        "on-primary-fixed-variant": "#574324",
+                        "on-primary-fixed": "#281901",
+                        "on-primary": "#3f2d10",
+                        "secondary": "#bcc8d6",
+                        "error": "#ffb4ab",
+                        "on-secondary": "#26323c",
+                        "secondary-container": "#3c4854",
+                        "on-error": "#690005",
+                        "surface": "#001427",
+                        "surface-tint": "#dfc299",
+                        "on-tertiary-container": "#4a4535",
+                        "primary-fixed": "#fddeb3",
+                        "secondary-fixed-dim": "#bcc8d6",
+                        "primary": "#e8caa1",
+                        "inverse-primary": "#715b39",
+                        "secondary-fixed": "#d8e4f2",
+                        "surface-dim": "#001427",
+                        "surface-container-low": "#081d30",
+                        "surface-container": "#0c2134",
+                        "tertiary": "#d7ceb9",
+                        "on-secondary-fixed-variant": "#3c4854",
+                        "on-surface-variant": "#d0c5b8",
+                        "on-surface": "#d1e4fe",
+                        "inverse-surface": "#d1e4fe"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    fontFamily: {
+                        "headline": ["Noto Serif", "serif"],
+                        "body": ["Manrope", "sans-serif"],
+                        "label": ["Manrope", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: theme('colors.background'); color: theme('colors.on-surface'); }
+    </style>
+</head>
+<body class="font-body antialiased min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-[#001427]/80 backdrop-blur-3xl shadow-none no-border tonal-shift-only">
+<div class="flex justify-between items-center px-12 py-8 w-full max-w-[1920px] mx-auto">
+<div class="flex gap-8 items-center font-serif tracking-widest text-xs uppercase">
+<a class="text-[#d1e4fe]/60 hover:text-[#e8caa1] transition-all duration-500 ease-in-out liquid-motion scale-100 active:scale-95" href="#">Collections</a>
+<a class="text-[#d1e4fe]/60 hover:text-[#e8caa1] transition-all duration-500 ease-in-out liquid-motion scale-100 active:scale-95" href="#">Sanctuary</a>
+</div>
+<a class="text-2xl font-serif tracking-[0.3em] text-[#e8caa1]" href="#">EADEN</a>
+<div class="flex gap-8 items-center font-serif tracking-widest text-xs uppercase">
+<a class="text-[#d1e4fe]/60 hover:text-[#e8caa1] transition-all duration-500 ease-in-out liquid-motion scale-100 active:scale-95" href="#">Journal</a>
+<a class="text-[#d1e4fe]/60 hover:text-[#e8caa1] transition-all duration-500 ease-in-out liquid-motion scale-100 active:scale-95" href="#">The Atelier</a>
+<a class="text-[#d1e4fe]/60 hover:text-[#e8caa1] transition-all duration-500 ease-in-out liquid-motion scale-100 active:scale-95" href="#">Contact</a>
+<div class="flex gap-4 ml-4">
+<button class="text-[#e8caa1] hover:text-[#e8caa1]/80 transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">shopping_bag</span>
+</button>
+<button class="text-[#e8caa1] hover:text-[#e8caa1]/80 transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">person</span>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-grow">
+<!-- Hero Section -->
+<section class="relative min-h-[921px] flex items-center justify-center pt-24 pb-12 overflow-hidden bg-surface-container-lowest">
+<div class="absolute inset-0 z-0 opacity-40">
+<img alt="Hero background" class="w-full h-full object-cover mix-blend-luminosity" data-alt="Abstract dark moody fluid waves with subtle metallic gold highlights, elegant minimalist texture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxJNPAuqsdWxb2MV0vK7EVpDgBUZRiA9txfzQUVm58q6nYwAKLVNmtHrUlB5TBLGhU0dhCBH5fmBQQDXimYeEkVCiGxuKr9tQUhnkT7a-6kksU3xsWd8jIVxpOlX3EUlNjsaAdp-y99JM38pYT1txFhTLzqICawVKjvKjaSaFc-mie7Gff-Uhf2VRfqSLLJMNldSnBAaD5-Ys2H5gUOJe7Zj7zarPof9BZ05Wv4Zb2O1NzXXj3kidRzf-iNXwGflyEx2jF0-MwtxY"/>
+<div class="absolute inset-0 bg-gradient-to-b from-transparent via-surface/50 to-surface"></div>
+</div>
+<div class="relative z-10 text-center max-w-4xl mx-auto px-6">
+<h1 class="font-headline text-5xl md:text-7xl lg:text-8xl text-primary mb-6 tracking-wide leading-tight">Reclaiming Quiet.</h1>
+<p class="font-body text-on-surface/70 text-lg md:text-xl max-w-2xl mx-auto mb-12 tracking-wide font-light">
+                    Curated objects for the intentional mind. A sanctuary built from shadows and light.
+                </p>
+<a class="inline-flex items-center justify-center px-8 py-4 rounded-full bg-gradient-to-r from-primary to-primary-container text-on-primary font-label text-sm uppercase tracking-widest hover:opacity-90 transition-opacity duration-500" href="#">
+                    Explore The Collection
+                </a>
+</div>
+</section>
+<!-- Philosophy Section -->
+<section class="py-32 px-6 md:px-12 lg:px-24 bg-surface-container-low">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row gap-16 md:gap-24 items-center">
+<div class="w-full md:w-1/2 relative">
+<div class="absolute -left-4 top-0 bottom-0 w-0.5 bg-primary/40"></div>
+<img alt="Philosophy" class="w-full h-[600px] object-cover rounded-sm shadow-2xl shadow-black/20 filter grayscale contrast-125" data-alt="Close up of a smooth, dark obsidian stone resting on textured linen cloth in low, dramatic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0PtoD4VC1kpdF4_nz9p-ZX7Shvg8BCc12Bp4vcK95zi810mcBCf29OVMgZe80ySjxEmZCBXbuOxSyAUxAs7XhYy_3VBn0YxGdL6AOdqzmZ1JNbScoJF5psNIoIP1AT0NMZVdnyZdfOnc9wm_ZDNVoPr56WxN2VG1R91N6JWBpmzfb9DCGhg4NnWUXFBv0VH2YnPC4RkdRJFfnq1H25vvvkEc1CiZVV6QXYPN3HWBE9INkI_lEVBqwTReKJicbTZEvzuzJ686cHMA"/>
+</div>
+<div class="w-full md:w-1/2 space-y-8 pl-4">
+<div class="flex items-center gap-4 text-primary">
+<div class="w-12 h-px bg-primary"></div>
+<span class="font-label text-xs uppercase tracking-[0.2em]">Our Philosophy</span>
+</div>
+<h2 class="font-headline text-4xl lg:text-5xl text-on-surface leading-tight">
+                        Intentional <br/><span class="text-primary italic">Silence.</span>
+</h2>
+<p class="font-body text-on-surface/70 text-base leading-relaxed max-w-md">
+                        In a world that demands constant attention, we craft spaces of pause. Every artifact is chosen not just for its aesthetic, but for the quiet it brings to a room. 
+                    </p>
+<a class="inline-block mt-8 font-headline text-primary border-b border-primary/30 pb-1 hover:border-primary transition-colors duration-500 tracking-wide text-lg" href="#">
+                        Read the Manifesto
+                    </a>
+</div>
+</div>
+</section>
+<!-- Featured Artifacts -->
+<section class="py-32 bg-surface">
+<div class="px-6 md:px-12 lg:px-24 mb-16 flex justify-between items-end">
+<div>
+<div class="flex items-center gap-4 text-primary mb-4">
+<div class="w-12 h-px bg-primary"></div>
+<span class="font-label text-xs uppercase tracking-[0.2em]">Curated</span>
+</div>
+<h2 class="font-headline text-3xl md:text-4xl text-on-surface">Featured Artifacts</h2>
+</div>
+<a class="hidden md:flex items-center gap-2 text-on-surface/60 hover:text-primary transition-colors font-label text-sm uppercase tracking-widest" href="#">
+                    View All <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+<div class="flex overflow-x-auto gap-8 px-6 md:px-12 lg:px-24 pb-12 snap-x snap-mandatory scrollbar-hide">
+<!-- Card 1 -->
+<div class="min-w-[300px] md:min-w-[400px] snap-center group cursor-pointer">
+<div class="relative h-[500px] mb-6 overflow-hidden bg-surface-container-low rounded-sm">
+<img alt="Artifact 1" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 filter grayscale group-hover:grayscale-0" data-alt="Minimalist dark ceramic vase with a single dried branch, resting on a dark polished surface, moody lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyM0Q39ZmsPqTPBsd2ncS97QResmC_QjOCR-UOcFf6kG9jGN5U-LHmEh7kGRBcwf4UsWJYIoKxbgOTgUMfNVYk_aXRqnYmMQO2JP8C_PFWDxdC5u94sz5JKYbHbpU2qKOMnIkN87iS9DL9LWRCQdEjPx3jzby2kid2XdVttgUiuPM_yXRsUm3uThvHDKEdqi-DXeMB5M1G8zYDe1shT_Djxv-wpzK0xBrAReP-8KadtTl5qq4lOd-NjRBt3lrcfeFbIcLMzL7LjjU"/>
+<div class="absolute inset-0 bg-surface/20 group-hover:bg-transparent transition-colors duration-500"></div>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline text-xl text-on-surface mb-2">The Obelisk Vase</h3>
+<p class="font-body text-tertiary text-sm">Matte Black Ceramic</p>
+</div>
+<span class="font-body text-on-surface/60">$145</span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="min-w-[300px] md:min-w-[400px] snap-center group cursor-pointer">
+<div class="relative h-[500px] mb-6 overflow-hidden bg-surface-container-low rounded-sm">
+<img alt="Artifact 2" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 filter grayscale group-hover:grayscale-0" data-alt="Abstract metallic gold sculpture capturing light, placed against a deep navy velvet background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdSnC3LgNSGLxRDs63t6doGsvuImiq1xUriWw6xYuDcduzmPg_jEb89L2_d3iLC_2FCbolTD6mb69SSinO3MPd6zWNxrk3sOsglEnC5ZU8qH5BJLV6R3pMt4zgO7Da9Jkm8MUiGOGd42e7Dqm-twJvS7d3hkariKsSWpXUZuKrZlHMk0YItnsze8M2W_DHJlPDUzbGhJjMl0MlorovtWX1U3KsCuZ_wO5C288up79Q72-5SEDXSLEpO5dZoZaxIOV94VuoKN967aY"/>
+<div class="absolute inset-0 bg-surface/20 group-hover:bg-transparent transition-colors duration-500"></div>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline text-xl text-on-surface mb-2">Aura Object</h3>
+<p class="font-body text-tertiary text-sm">Brushed Brass</p>
+</div>
+<span class="font-body text-on-surface/60">$210</span>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="min-w-[300px] md:min-w-[400px] snap-center group cursor-pointer">
+<div class="relative h-[500px] mb-6 overflow-hidden bg-surface-container-low rounded-sm">
+<img alt="Artifact 3" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 filter grayscale group-hover:grayscale-0" data-alt="Stack of thick, textured art books with a heavy glass paperweight on top, resting on dark wood" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqQT0E9DZsnhX5gj26x3jdnfBcmlfwVlXO1gWdB21yV6km7TElsOelducRa-25FEosXPAjNaan7RKMIm0wrN9MYKLYffHYSNP9tlg3hzLTuwkIKG6SVWpB9r7Q00iiQDAZeMItE6TKVR9Uo-qkahyzyUOJFUrkaGHCAS3ApwCdvwQs0_G26XkLBTpSrtThVNstFDQw6QmsaZ4cQu1neodBIY6dwv_JAP_kU22wlmp6OHLkEI23OC55s9Eu_KNUKbfqkkX6ijevmgE"/>
+<div class="absolute inset-0 bg-surface/20 group-hover:bg-transparent transition-colors duration-500"></div>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline text-xl text-on-surface mb-2">Monolith Weight</h3>
+<p class="font-body text-tertiary text-sm">Smoked Glass</p>
+</div>
+<span class="font-body text-on-surface/60">$85</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full mt-auto bg-[#081d30] tonal-shift-from-surface flat fade-in-slow border-t border-[#4d463c]/15">
+<div class="flex flex-col md:flex-row justify-between items-center px-12 py-20 w-full">
+<div class="mb-8 md:mb-0">
+<span class="font-serif text-[#e8caa1] tracking-widest text-xl">EADEN</span>
+</div>
+<div class="flex flex-wrap justify-center gap-8 mb-8 md:mb-0 font-manrope text-[10px] tracking-[0.15em] uppercase">
+<a class="text-[#d1e4fe]/40 hover:text-[#e8caa1] transition-colors duration-500" href="#">Privacy</a>
+<a class="text-[#d1e4fe]/40 hover:text-[#e8caa1] transition-colors duration-500" href="#">Sustainability</a>
+<a class="text-[#d1e4fe]/40 hover:text-[#e8caa1] transition-colors duration-500" href="#">Shipping</a>
+<a class="text-[#d1e4fe]/40 hover:text-[#e8caa1] transition-colors duration-500" href="#">Terms</a>
+</div>
+<div class="font-manrope text-[10px] tracking-[0.15em] uppercase text-[#e8caa1]">
+                © 2024 EADEN SANCTUARY. RECLAIMING QUIET.
+            </div>
+</div>
+</footer>
+</body></html>
