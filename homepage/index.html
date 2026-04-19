@@ -1444,7 +1444,7 @@
   <section class="hero" id="hero">
     <div class="hero__video-container">
       <iframe id="ytPlayer" class="hero__yt-iframe"
-        src="https://www.youtube.com/embed/jKe5MiMtk-Q?autoplay=1&mute=0&loop=1&playlist=jKe5MiMtk-Q&controls=0&rel=0&modestbranding=1&iv_load_policy=3&enablejsapi=1&playsinline=1"
+        src="https://www.youtube.com/embed/jKe5MiMtk-Q?autoplay=1&mute=1&loop=1&playlist=jKe5MiMtk-Q&controls=0&rel=0&modestbranding=1&iv_load_policy=3&enablejsapi=1&playsinline=1"
         allow="autoplay; encrypted-media"
         allowfullscreen
         title="Eaden Hero Video">
@@ -1453,7 +1453,7 @@
     <div class="hero__overlay"></div>
 
     <button class="hero__mute-btn" id="muteBtn" aria-label="사운드 토글">
-      <span class="material-symbols-outlined" id="muteIcon">volume_up</span>
+      <span class="material-symbols-outlined" id="muteIcon">volume_off</span>
     </button>
   </section>
 
@@ -1782,7 +1782,7 @@
     // ========================================
     const muteBtn = document.getElementById('muteBtn');
     const muteIcon = document.getElementById('muteIcon');
-    let isMuted = false;
+    let isMuted = true;
     let ytPlayer = null;
 
     // YouTube IFrame API 로드
@@ -1793,10 +1793,7 @@
     window.onYouTubeIframeAPIReady = function () {
       ytPlayer = new YT.Player('ytPlayer', {
         events: {
-          onReady: (e) => {
-            e.target.unMute();
-            e.target.setVolume(100);
-          },
+          onReady: (e) => e.target.mute(),
         },
       });
     };
