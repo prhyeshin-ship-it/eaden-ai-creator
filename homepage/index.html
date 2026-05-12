@@ -1885,10 +1885,8 @@
         message: document.getElementById('userMessage').value,
       };
 
-      const apiUrl = 'https://hook.us2.make.com/y4qps577plckwplw4ehqed4smtwtcnsd';
-
       try {
-        const res = await fetch(apiUrl, {
+        const res = await fetch('/api/contact', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
@@ -1898,8 +1896,8 @@
           contactForm.style.display = 'none';
           contactSuccess.classList.add('show');
         } else {
-          const errorText = await res.text();
-          alert(`접수 중 오류가 발생했습니다.\n\n[Make.com 응답]: ${errorText}\n\nMake.com 시나리오가 켜져 있는지 확인해주세요.`);
+          const data = await res.json().catch(() => ({}));
+          alert(data.error || '접수 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
           submitBtn.disabled = false;
           submitBtn.innerHTML = originalText;
         }
