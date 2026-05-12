@@ -49,6 +49,8 @@ async function sendNotificationEmail(submission) {
 
 // POST /api/contact
 router.post('/', validateContact, async (req, res) => {
+  console.log('[contact] req.body:', req.body);
+
   const { inquiry_type, name, contact, message } = req.body;
 
   const submission = {
@@ -64,14 +66,15 @@ router.post('/', validateContact, async (req, res) => {
     const submissions = readSubmissions();
     submissions.push(submission);
     writeSubmissions(submissions);
+    console.log(`[contact] 저장 완료 — id: ${submission.id}, 유형: ${inquiry_type}, 이름: ${name}`);
   } catch (err) {
-    console.error('Submission save error:', err);
-    return res.status(500).json({ error: '저장 중 오류가 발생했습니다.' });
+    console.error('[contact] 파일 저장 실패:', err.message);
+    return res.status(500).json({ error: `저장 중 오류가 발생했습니다: ${err.message}` });
   }
 
   // 이메일 알림 (실패해도 응답은 성공 처리)
   sendNotificationEmail(submission).catch((err) =>
-    console.error('Email notification error:', err)
+    console.error('[contact] 이메일 발송 실패:', err.message)
   );
 
   res.status(201).json({

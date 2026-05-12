@@ -12,6 +12,7 @@
       --text: #d1e4fe;
       --primary: #c29b6f;
       --border: rgba(194, 155, 111, 0.3);
+      --danger: #e05c5c;
     }
     body {
       font-family: 'NanumSquare', sans-serif;
@@ -20,15 +21,10 @@
       margin: 0;
       padding: 2rem;
     }
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    h1 {
-      color: var(--primary);
-      text-align: center;
-      margin-bottom: 2rem;
-    }
+    .container { max-width: 1200px; margin: 0 auto; }
+    h1 { color: var(--primary); text-align: center; margin-bottom: 2rem; }
+
+    /* 로그인 카드 */
     .auth-card {
       background: var(--surface);
       padding: 2rem;
@@ -42,7 +38,7 @@
       width: calc(100% - 2rem);
       padding: 0.8rem;
       margin-bottom: 1rem;
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255,255,255,0.05);
       border: 1px solid var(--border);
       color: white;
       border-radius: 4px;
@@ -56,162 +52,505 @@
       font-weight: bold;
       border-radius: 4px;
       transition: opacity 0.2s;
+      font-family: 'NanumSquare', sans-serif;
     }
-    button:hover {
-      opacity: 0.8;
+    button:hover:not(:disabled) { opacity: 0.8; }
+    button:disabled { opacity: 0.4; cursor: not-allowed; }
+    .error { color: #ff6b6b; margin-top: 1rem; font-size: 0.9rem; }
+
+    /* 대시보드 */
+    #dashboard { display: none; }
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+      gap: 1rem;
+      flex-wrap: wrap;
     }
-    #dashboard {
+    .dashboard-header h2 { margin: 0; }
+    .header-actions { display: flex; gap: 0.5rem; align-items: center; }
+
+    /* 상태 메시지 */
+    #statusMsg {
+      font-size: 0.85rem;
+      color: rgba(209,228,254,0.6);
+      margin-bottom: 0.8rem;
+      height: 1.2em;
+    }
+    #statusMsg.success { color: #6bffb8; }
+    #statusMsg.error-msg { color: #ff6b6b; }
+
+    /* 선택 삭제 툴바 */
+    #deleteBar {
       display: none;
+      align-items: center;
+      gap: 1rem;
+      background: rgba(224, 92, 92, 0.1);
+      border: 1px solid rgba(224,92,92,0.35);
+      border-radius: 6px;
+      padding: 0.6rem 1rem;
+      margin-bottom: 0.8rem;
     }
-    .error {
-      color: #ff6b6b;
-      margin-top: 1rem;
+    #deleteBar span { font-size: 0.9rem; color: #ffaaaa; }
+    .btn-danger {
+      background: var(--danger);
+      color: #fff;
+      padding: 0.5rem 1.2rem;
       font-size: 0.9rem;
     }
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+    }
+
+    /* 새로고침 회전 */
+    @keyframes spin { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
+    .spinning { animation: spin 0.8s linear infinite; display: inline-block; }
+
+    /* 테이블 */
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 2rem;
       background: var(--surface);
       border-radius: 8px;
       overflow: hidden;
     }
     th, td {
-      padding: 1rem;
+      padding: 0.85rem 1rem;
       text-align: left;
       border-bottom: 1px solid var(--border);
     }
     th {
-      background: rgba(194, 155, 111, 0.1);
+      background: rgba(194,155,111,0.1);
       color: var(--primary);
       white-space: nowrap;
     }
-    tr:hover {
-      background: rgba(255, 255, 255, 0.05);
+    tr:hover td { background: rgba(255,255,255,0.04); }
+    tr.selected td { background: rgba(224,92,92,0.07); }
+    .empty { padding: 2rem; text-align: center; color: rgba(209,228,254,0.6); }
+
+    /* 체크박스 */
+    input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+      accent-color: var(--danger);
     }
-    .empty {
+    th:first-child, td:first-child { width: 36px; text-align: center; }
+
+    /* 페이지네이션 */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .page-info { color: rgba(209,228,254,0.6); font-size: 0.9rem; margin: 0 0.5rem; }
+    .page-btn {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 0.4rem 0.8rem;
+      font-size: 0.9rem;
+      border-radius: 4px;
+      min-width: 2.2rem;
+    }
+    .page-btn:hover:not(:disabled) { background: rgba(194,155,111,0.15); opacity: 1; }
+    .page-btn.active { background: var(--primary); color: #000; border-color: var(--primary); font-weight: bold; }
+
+    /* 삭제 확인 모달 */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
       padding: 2rem;
+      max-width: 360px;
+      width: 90%;
       text-align: center;
-      color: rgba(209, 228, 254, 0.6);
     }
+    .modal h3 { color: var(--danger); margin-top: 0; }
+    .modal p { color: rgba(209,228,254,0.8); font-size: 0.95rem; line-height: 1.6; }
+    .modal-actions { display: flex; gap: 0.8rem; justify-content: center; margin-top: 1.5rem; }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <h1>Eaden Admin Hub</h1>
+<div class="container">
+  <h1>Eaden Admin Hub</h1>
 
-    <div class="auth-card" id="authSection">
-      <h3>관리자 로그인</h3>
-      <p style="font-size: 0.9rem; margin-bottom: 1.5rem; color: rgba(209, 228, 254, 0.7);">접속 비밀번호를 입력해주세요.</p>
-      <form id="authForm">
-        <input type="password" id="passwordInput" placeholder="Password" required>
-        <button type="submit">확인</button>
-      </form>
-      <div id="authError" class="error"></div>
-    </div>
-
-    <div id="dashboard">
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h2>고객 문의 내역</h2>
-        <button onclick="fetchInquiries()" style="padding: 0.5rem 1rem;">새로고침</button>
-      </div>
-      
-      <table>
-        <thead>
-          <tr>
-            <th>날짜</th>
-            <th>문의 유형</th>
-            <th>이름</th>
-            <th>연락처</th>
-            <th>메시지</th>
-          </tr>
-        </thead>
-        <tbody id="tableBody">
-          <!-- Rows will be injected here -->
-        </tbody>
-      </table>
-    </div>
+  <!-- 로그인 -->
+  <div class="auth-card" id="authSection">
+    <h3>관리자 로그인</h3>
+    <p style="font-size:0.9rem;margin-bottom:1.5rem;color:rgba(209,228,254,0.7);">접속 비밀번호를 입력해주세요.</p>
+    <form id="authForm">
+      <input type="password" id="passwordInput" placeholder="Password" required>
+      <button type="submit">확인</button>
+    </form>
+    <div id="authError" class="error"></div>
   </div>
 
-  <script>
-    let currentPassword = '';
+  <!-- 대시보드 -->
+  <div id="dashboard">
+    <div class="dashboard-header">
+      <h2>고객 문의 내역</h2>
+      <div class="header-actions">
+        <button id="refreshBtn" onclick="refresh()">
+          <span id="refreshIcon">⟳</span> 새로고침
+        </button>
+      </div>
+    </div>
 
-    document.getElementById('authForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      currentPassword = document.getElementById('passwordInput').value;
-      fetchInquiries();
+    <div id="statusMsg"></div>
+
+    <!-- 선택 삭제 툴바 -->
+    <div id="deleteBar">
+      <span id="selectedCount">0건 선택됨</span>
+      <button class="btn-danger" onclick="openConfirm()">🗑 선택 삭제</button>
+      <button class="btn-secondary" onclick="clearSelection()">취소</button>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th><input type="checkbox" id="checkAll" onclick="toggleAll(this)"></th>
+          <th>날짜</th>
+          <th>문의 유형</th>
+          <th>이름</th>
+          <th>연락처</th>
+          <th>메시지</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+
+    <div class="pagination" id="pagination"></div>
+  </div>
+</div>
+
+<!-- 삭제 확인 모달 -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal">
+    <h3>⚠️ 삭제 확인</h3>
+    <p id="confirmText">선택한 문의를 삭제하시겠습니까?<br>이 작업은 되돌릴 수 없습니다.</p>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeConfirm()">취소</button>
+      <button class="btn-danger" id="confirmDeleteBtn" onclick="deleteSelected()">삭제하기</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const PAGE_SIZE = 10;
+  let currentPassword = '';
+  let allSubmissions = [];
+  let currentPage = 1;
+  let selectedIds = new Set();
+
+  // ── 로그인 ────────────────────────────────────────────
+  document.getElementById('authForm').addEventListener('submit', e => {
+    e.preventDefault();
+    currentPassword = document.getElementById('passwordInput').value;
+    fetchInquiries();
+  });
+
+  // ── 새로고침 ──────────────────────────────────────────
+  async function refresh() {
+    const btn = document.getElementById('refreshBtn');
+    const icon = document.getElementById('refreshIcon');
+    btn.disabled = true;
+    icon.classList.add('spinning');
+    clearSelection();
+    await fetchInquiries();
+    icon.classList.remove('spinning');
+    btn.disabled = false;
+  }
+
+  // ── 데이터 불러오기 ───────────────────────────────────
+  async function fetchInquiries() {
+    const authError = document.getElementById('authError');
+    const authSection = document.getElementById('authSection');
+    const dashboard = document.getElementById('dashboard');
+    const isDashboard = dashboard.style.display === 'block';
+
+    if (!isDashboard) authError.textContent = '불러오는 중…';
+    else setStatus('불러오는 중…', '');
+
+    try {
+      const res = await fetch('/api/admin', {
+        headers: { 'Authorization': `Bearer ${currentPassword}` }
+      });
+
+      if (res.status === 401) {
+        authError.textContent = '비밀번호가 일치하지 않습니다.';
+        setStatus('비밀번호가 일치하지 않습니다.', 'error-msg');
+        return;
+      }
+      if (!res.ok) throw new Error('서버 오류가 발생했습니다.');
+
+      const data = await res.json();
+      allSubmissions = data.submissions || [];
+
+      authSection.style.display = 'none';
+      dashboard.style.display = 'block';
+      authError.textContent = '';
+
+      const now = new Date().toLocaleTimeString('ko-KR');
+      setStatus(`총 ${allSubmissions.length}건 · 마지막 업데이트: ${now}`, 'success');
+
+      const totalPages = Math.max(1, Math.ceil(allSubmissions.length / PAGE_SIZE));
+      if (currentPage > totalPages) currentPage = 1;
+
+      renderTable();
+      renderPagination();
+    } catch (err) {
+      const msg = err.message || '데이터를 불러오지 못했습니다.';
+      authError.textContent = msg;
+      setStatus(msg, 'error-msg');
+    }
+  }
+
+  // ── 상태 메시지 ───────────────────────────────────────
+  function setStatus(msg, cls) {
+    const el = document.getElementById('statusMsg');
+    el.textContent = msg;
+    el.className = cls;
+  }
+
+  // ── 테이블 렌더링 ─────────────────────────────────────
+  function renderTable() {
+    const tableBody = document.getElementById('tableBody');
+    tableBody.innerHTML = '';
+
+    if (allSubmissions.length === 0) {
+      tableBody.innerHTML = `<tr><td colspan="6" class="empty">접수된 문의가 없습니다.</td></tr>`;
+      document.getElementById('checkAll').checked = false;
+      document.getElementById('checkAll').indeterminate = false;
+      return;
+    }
+
+    const start = (currentPage - 1) * PAGE_SIZE;
+    const pageItems = allSubmissions.slice(start, start + PAGE_SIZE);
+
+    pageItems.forEach(sub => {
+      const tr = document.createElement('tr');
+      const isSelected = selectedIds.has(sub.id);
+      if (isSelected) tr.classList.add('selected');
+
+      const date = new Date(sub.created_at).toLocaleString('ko-KR');
+      const safeMessage = (sub.message || '')
+        .replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\\n/g, '<br>');
+
+      tr.innerHTML = `
+        <td><input type="checkbox" class="row-check" data-id="${sub.id}" ${isSelected ? 'checked' : ''}
+          onchange="onRowCheck(this, '${sub.id}')"></td>
+        <td style="white-space:nowrap;">${date}</td>
+        <td style="white-space:nowrap;color:var(--primary);">${sub.inquiry_type || '-'}</td>
+        <td style="white-space:nowrap;">${sub.name || '-'}</td>
+        <td style="white-space:nowrap;">${sub.contact || '-'}</td>
+        <td style="line-height:1.6;">${safeMessage}</td>
+      `;
+      tableBody.appendChild(tr);
     });
 
-    async function fetchInquiries() {
-      const errorDiv = document.getElementById('authError');
-      const tableBody = document.getElementById('tableBody');
-      const authSection = document.getElementById('authSection');
-      const dashboard = document.getElementById('dashboard');
+    updateHeaderCheckbox();
+    updateDeleteBar();
+  }
 
-      errorDiv.textContent = '불러오는 중...';
-      
-      try {
-        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:';
-        const apiUrl = isLocal ? '/api/admin' : '/api/admin'; // Vercel 환경 기본값
-
-        let data = {};
-        
-        try {
-          const res = await fetch(apiUrl, {
-            headers: {
-              'Authorization': `Bearer ${currentPassword}`
-            }
-          });
-
-          if (res.status === 401) {
-            errorDiv.textContent = '비밀번호가 일치하지 않습니다.';
-            return;
-          }
-
-          if (!res.ok) {
-            throw new Error('서버 오류가 발생했습니다.');
-          }
-
-          data = await res.json();
-        } catch (err) {
-          // 서버 연결 실패 시 브라우저 수첩(localStorage)에서 데이터 꺼내오기!
-          console.log("서버를 찾을 수 없어 브라우저 임시 저장소에서 불러옵니다.");
-          data = {
-            submissions: JSON.parse(localStorage.getItem('eaden_inquiries') || '[]')
-          };
-        }
-        
-        // Success
-        authSection.style.display = 'none';
-        dashboard.style.display = 'block';
-        
-        tableBody.innerHTML = '';
-        if (!data.submissions || data.submissions.length === 0) {
-          tableBody.innerHTML = `<tr><td colspan="5" class="empty">접수된 문의가 없습니다.</td></tr>`;
-          return;
-        }
-
-        data.submissions.forEach(sub => {
-          const tr = document.createElement('tr');
-          const date = new Date(sub.created_at).toLocaleString('ko-KR');
-          // Escape HTML gently to prevent XSS from messages
-          const safeMessage = sub.message.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\\n/g, '<br>');
-          
-          tr.innerHTML = `
-            <td style="white-space: nowrap;">${date}</td>
-            <td style="white-space: nowrap; color: var(--primary);">${sub.inquiry_type}</td>
-            <td style="white-space: nowrap;">${sub.name}</td>
-            <td style="white-space: nowrap;">${sub.contact}</td>
-            <td style="line-height: 1.6;">${safeMessage}</td>
-          `;
-          tableBody.appendChild(tr);
-        });
-
-      } catch (err) {
-        errorDiv.textContent = err.message || '데이터를 불러오지 못했습니다.';
-      }
+  // ── 체크박스 처리 ─────────────────────────────────────
+  function onRowCheck(checkbox, id) {
+    const tr = checkbox.closest('tr');
+    if (checkbox.checked) {
+      selectedIds.add(id);
+      tr.classList.add('selected');
+    } else {
+      selectedIds.delete(id);
+      tr.classList.remove('selected');
     }
-  </script>
+    updateHeaderCheckbox();
+    updateDeleteBar();
+  }
+
+  function toggleAll(headerCheckbox) {
+    const start = (currentPage - 1) * PAGE_SIZE;
+    const pageItems = allSubmissions.slice(start, start + PAGE_SIZE);
+    pageItems.forEach(sub => {
+      if (headerCheckbox.checked) selectedIds.add(sub.id);
+      else selectedIds.delete(sub.id);
+    });
+    renderTable();
+  }
+
+  function updateHeaderCheckbox() {
+    const start = (currentPage - 1) * PAGE_SIZE;
+    const pageItems = allSubmissions.slice(start, start + PAGE_SIZE);
+    const checkedCount = pageItems.filter(s => selectedIds.has(s.id)).length;
+    const chkAll = document.getElementById('checkAll');
+    chkAll.checked = checkedCount > 0 && checkedCount === pageItems.length;
+    chkAll.indeterminate = checkedCount > 0 && checkedCount < pageItems.length;
+  }
+
+  function clearSelection() {
+    selectedIds.clear();
+    renderTable();
+  }
+
+  function updateDeleteBar() {
+    const bar = document.getElementById('deleteBar');
+    const count = document.getElementById('selectedCount');
+    if (selectedIds.size > 0) {
+      bar.style.display = 'flex';
+      count.textContent = `${selectedIds.size}건 선택됨`;
+    } else {
+      bar.style.display = 'none';
+    }
+  }
+
+  // ── 삭제 확인 모달 ────────────────────────────────────
+  function openConfirm() {
+    if (selectedIds.size === 0) return;
+    document.getElementById('confirmText').innerHTML =
+      `선택한 <strong style="color:#ffaaaa">${selectedIds.size}건</strong>의 문의를 삭제하시겠습니까?<br>이 작업은 되돌릴 수 없습니다.`;
+    document.getElementById('confirmModal').classList.add('open');
+  }
+
+  function closeConfirm() {
+    document.getElementById('confirmModal').classList.remove('open');
+  }
+
+  // ── 삭제 실행 ─────────────────────────────────────────
+  async function deleteSelected() {
+    const ids = Array.from(selectedIds);
+    if (ids.length === 0) return;
+
+    const btn = document.getElementById('confirmDeleteBtn');
+    btn.disabled = true;
+    btn.textContent = '삭제 중…';
+
+    try {
+      const res = await fetch('/api/delete-contact', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${currentPassword}`
+        },
+        body: JSON.stringify({ ids })
+      });
+
+      if (res.status === 401) {
+        closeConfirm();
+        setStatus('권한이 없습니다.', 'error-msg');
+        return;
+      }
+      if (!res.ok) throw new Error('삭제 중 오류가 발생했습니다.');
+
+      const data = await res.json();
+      closeConfirm();
+
+      // 로컬 데이터에서도 제거 후 리렌더
+      allSubmissions = allSubmissions.filter(s => !selectedIds.has(s.id));
+      selectedIds.clear();
+
+      const totalPages = Math.max(1, Math.ceil(allSubmissions.length / PAGE_SIZE));
+      if (currentPage > totalPages) currentPage = totalPages;
+
+      renderTable();
+      renderPagination();
+      updateDeleteBar();
+
+      const now = new Date().toLocaleTimeString('ko-KR');
+      setStatus(`${data.deleted}건 삭제 완료 · 총 ${allSubmissions.length}건 남음 · ${now}`, 'success');
+    } catch (err) {
+      setStatus(err.message || '삭제에 실패했습니다.', 'error-msg');
+      closeConfirm();
+    } finally {
+      btn.disabled = false;
+      btn.textContent = '삭제하기';
+    }
+  }
+
+  // ── 페이지네이션 ──────────────────────────────────────
+  function renderPagination() {
+    const container = document.getElementById('pagination');
+    container.innerHTML = '';
+    const totalPages = Math.ceil(allSubmissions.length / PAGE_SIZE);
+    if (totalPages <= 1) return;
+
+    container.appendChild(makePageBtn('‹ 이전', currentPage === 1, () => goPage(currentPage - 1)));
+
+    getPageRange(currentPage, totalPages).forEach(p => {
+      if (p === '…') {
+        const dots = document.createElement('span');
+        dots.className = 'page-info';
+        dots.textContent = '…';
+        container.appendChild(dots);
+      } else {
+        const btn = makePageBtn(p, false, () => goPage(p));
+        if (p === currentPage) btn.classList.add('active');
+        container.appendChild(btn);
+      }
+    });
+
+    container.appendChild(makePageBtn('다음 ›', currentPage === totalPages, () => goPage(currentPage + 1)));
+
+    const info = document.createElement('span');
+    info.className = 'page-info';
+    const start = (currentPage - 1) * PAGE_SIZE + 1;
+    const end = Math.min(currentPage * PAGE_SIZE, allSubmissions.length);
+    info.textContent = `(${start}–${end} / 전체 ${allSubmissions.length}건)`;
+    container.appendChild(info);
+  }
+
+  function makePageBtn(label, disabled, onClick) {
+    const btn = document.createElement('button');
+    btn.className = 'page-btn';
+    btn.textContent = label;
+    btn.disabled = disabled;
+    if (!disabled) btn.addEventListener('click', onClick);
+    return btn;
+  }
+
+  function goPage(p) {
+    currentPage = p;
+    renderTable();
+    renderPagination();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function getPageRange(current, total) {
+    if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+    const pages = [];
+    if (current <= 4) {
+      for (let i = 1; i <= 5; i++) pages.push(i);
+      pages.push('…', total);
+    } else if (current >= total - 3) {
+      pages.push(1, '…');
+      for (let i = total - 4; i <= total; i++) pages.push(i);
+    } else {
+      pages.push(1, '…', current - 1, current, current + 1, '…', total);
+    }
+    return pages;
+  }
+
+  // 모달 외부 클릭 시 닫기
+  document.getElementById('confirmModal').addEventListener('click', e => {
+    if (e.target === e.currentTarget) closeConfirm();
+  });
+</script>
 </body>
 </html>

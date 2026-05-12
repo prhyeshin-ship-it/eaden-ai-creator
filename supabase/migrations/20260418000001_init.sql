@@ -40,9 +40,10 @@ alter table public.contacts enable row level security;
 alter table public.portfolio_media enable row level security;
 alter table public.portfolio_images enable row level security;
 
--- contacts: 누구나 insert 가능, select는 서비스 키만
+-- contacts: 누구나 insert 가능, select는 서비스 키(RLS 우회)로만 접근
 create policy "Anyone can submit contact" on public.contacts
   for insert with check (true);
+-- SELECT 정책 없음 = anon key로는 조회 불가 (서비스 키는 RLS 우회하므로 admin API 정상 동작)
 
 -- portfolio: 누구나 read
 create policy "Public read media" on public.portfolio_media

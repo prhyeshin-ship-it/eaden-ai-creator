@@ -10,21 +10,28 @@ const contentRouter = require('./routes/content');
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-// CORS – 안티그래비티 FE origin 허용
-const allowedOrigins = [
-  process.env.FRONTEND_ORIGIN || 'http://localhost:3000',
-  'http://localhost:5500',   // Live Server (VS Code)
-  'http://127.0.0.1:5500',
-  'null',                    // 로컬 file:// 열기
-];
+// CORS – 로컬 개발 전체 허용, 프로덕션 origin 화이트리스트
+const productionOrigins = process.env.FRONTEND_ORIGIN
+  ? process.env.FRONTEND_ORIGIN.split(',').map((o) => o.trim())
+  : [];
+
+const isLocalOrigin = (origin) =>
+  /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin) || origin === 'null';
 
 app.use(
   cors({
     origin: (origin, cb) => {
-      if (!origin || allowedOrigins.includes(origin)) return cb(null, true);
-      cb(new Error('CORS not allowed'));
+      // 서버-to-서버 또는 같은 출처
+      if (!origin) return cb(null, true);
+      // 로컬 개발 환경 (포트 무관)
+      if (isLocalOrigin(origin)) return cb(null, true);
+      // 명시된 프로덕션 origin
+      if (productionOrigins.includes(origin)) return cb(null, true);
+      cb(null, false); // Error 대신 false → cors 패키지가 표준 거부 처리
     },
-    methods: ['GET', 'POST'],
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    optionsSuccessStatus: 200, // IE11 호환
   })
 );
 
