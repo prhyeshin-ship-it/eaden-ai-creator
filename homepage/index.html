@@ -1898,7 +1898,8 @@
           contactForm.style.display = 'none';
           contactSuccess.classList.add('show');
         } else {
-          alert('접수 중 오류가 발생했습니다.');
+          const errorText = await res.text();
+          alert(`접수 중 오류가 발생했습니다.\n\n[Make.com 응답]: ${errorText}\n\nMake.com 시나리오가 켜져 있는지 확인해주세요.`);
           submitBtn.disabled = false;
           submitBtn.innerHTML = originalText;
         }
