@@ -26,10 +26,14 @@ module.exports = async (req, res) => {
   if (message.trim().length < 10)
     return res.status(400).json({ error: '메시지는 10자 이상 입력해주세요.' });
 
-  const supabase = createClient(
-    process.env.SUPABASE_URL,
-    process.env.SUPABASE_SERVICE_KEY
-  );
+  const supabaseUrl = process.env.SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_SERVICE_KEY;
+
+  if (!supabaseUrl || !supabaseKey) {
+    return res.status(500).json({ error: '저장 중 오류가 발생했습니다.', _debug: `ENV MISSING: url=${!!supabaseUrl} key=${!!supabaseKey}` });
+  }
+
+  const supabase = createClient(supabaseUrl, supabaseKey);
 
   const { data, error } = await supabase.from('contacts').insert({
     inquiry_type,
@@ -40,7 +44,7 @@ module.exports = async (req, res) => {
 
   if (error) {
     console.error('Supabase insert error:', error);
-    return res.status(500).json({ error: '저장 중 오류가 발생했습니다.', _debug: error.message });
+    return res.status(500).json({ error: '저장 중 오류가 발생했습니다.', _debug: `${error.message} | code:${error.code} | url:${supabaseUrl?.slice(0,40)}` });
   }
 
   res.status(201).json({
