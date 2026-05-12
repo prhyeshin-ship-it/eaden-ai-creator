@@ -40,7 +40,7 @@ module.exports = async (req, res) => {
 
   if (error) {
     console.error('Supabase insert error:', error);
-    return res.status(500).json({ error: '저장 중 오류가 발생했습니다.' });
+    return res.status(500).json({ error: '저장 중 오류가 발생했습니다.', _debug: error.message });
   }
 
   res.status(201).json({
