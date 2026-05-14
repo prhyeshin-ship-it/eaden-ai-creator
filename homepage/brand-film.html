@@ -16,8 +16,6 @@
       --surface-container: #0c2134;
       --surface-container-high: #182b3f;
       --surface-container-highest: #23364a;
-      --surface-variant: #23364a;
-      --surface-bright: #283b4f;
       --primary: #e8caa1;
       --primary-container: #cbaf87;
       --on-primary: #3f2d10;
@@ -30,12 +28,7 @@
       --transition-liquid: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    *, *::before, *::after {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     html { font-size: 16px; }
 
     body {
@@ -87,14 +80,9 @@
       padding: 0.5rem 0;
       transition: color var(--transition-liquid);
     }
-
     .back-btn:hover { color: var(--primary); }
 
-    .header-divider {
-      width: 1px;
-      height: 20px;
-      background: rgba(77, 70, 60, 0.4);
-    }
+    .header-divider { width: 1px; height: 20px; background: rgba(77, 70, 60, 0.4); }
 
     .header-logo {
       font-family: var(--font-headline);
@@ -112,11 +100,7 @@
       gap: 1rem;
     }
 
-    .header-label-line {
-      width: 32px;
-      height: 1px;
-      background: var(--primary);
-    }
+    .header-label-line { width: 32px; height: 1px; background: var(--primary); }
 
     .header-title {
       font-family: var(--font-headline);
@@ -140,11 +124,7 @@
       margin-bottom: 1rem;
     }
 
-    .page-hero__label-line {
-      width: 48px;
-      height: 1px;
-      background: var(--primary);
-    }
+    .page-hero__label-line { width: 48px; height: 1px; background: var(--primary); }
 
     .page-hero__label-text {
       font-size: 0.7rem;
@@ -161,10 +141,7 @@
       line-height: 1.1;
     }
 
-    .page-hero__title em {
-      color: var(--primary);
-      font-style: italic;
-    }
+    .page-hero__title em { color: var(--primary); font-style: italic; }
 
     .page-hero__desc {
       margin-top: 1.5rem;
@@ -184,10 +161,11 @@
 
     .video-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 2rem;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.75rem;
     }
 
+    /* ── VIDEO CARD ── */
     .video-card {
       position: relative;
       cursor: pointer;
@@ -197,9 +175,7 @@
       transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .video-card:hover {
-      transform: translateY(-4px);
-    }
+    .video-card:hover { transform: translateY(-4px); }
 
     .video-card__thumb {
       position: relative;
@@ -208,16 +184,16 @@
       background: var(--surface-container);
     }
 
-    .video-card__preview {
+    .video-card__thumb-img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
-      filter: grayscale(0.6) brightness(0.85);
+      filter: grayscale(0.55) brightness(0.88);
       transition: filter 0.7s ease, transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .video-card:hover .video-card__preview {
+    .video-card:hover .video-card__thumb-img {
       filter: grayscale(0) brightness(1);
       transform: scale(1.04);
     }
@@ -225,26 +201,19 @@
     .video-card__overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(
-        160deg,
-        rgba(0, 20, 39, 0.15) 0%,
-        rgba(0, 20, 39, 0.45) 100%
-      );
+      background: linear-gradient(160deg, rgba(0,20,39,0.12) 0%, rgba(0,20,39,0.42) 100%);
       transition: background 0.5s ease;
     }
 
-    .video-card:hover .video-card__overlay {
-      background: rgba(0, 20, 39, 0.1);
-    }
+    .video-card:hover .video-card__overlay { background: rgba(0,20,39,0.08); }
 
-    /* Play button */
     .video-card__play {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%) scale(0.75);
-      width: 64px;
-      height: 64px;
+      width: 60px;
+      height: 60px;
       background: rgba(0, 15, 31, 0.65);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
@@ -263,43 +232,43 @@
       transform: translate(-50%, -50%) scale(1);
     }
 
-    /* Card number badge */
     .video-card__num {
       position: absolute;
-      top: 1rem;
-      left: 1rem;
-      font-family: var(--font-body);
-      font-size: 0.6rem;
-      letter-spacing: 0.2em;
+      top: 0.85rem;
+      left: 0.85rem;
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
       color: rgba(209, 228, 254, 0.4);
-      background: rgba(0, 20, 39, 0.5);
-      backdrop-filter: blur(8px);
-      padding: 0.3rem 0.6rem;
+      background: rgba(0, 20, 39, 0.55);
+      backdrop-filter: blur(6px);
+      padding: 0.25rem 0.55rem;
       border-radius: 2px;
     }
 
-    /* Card info */
     .video-card__info {
-      padding: 1.25rem 1.5rem 1.5rem;
+      padding: 1.1rem 1.25rem 1.35rem;
       background: var(--surface-container-low);
-      border-top: 1px solid rgba(77, 70, 60, 0.12);
+      border-top: 1px solid rgba(77, 70, 60, 0.1);
     }
 
     .video-card__category {
-      font-size: 0.6rem;
+      font-size: 0.58rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--primary);
-      margin-bottom: 0.4rem;
-      opacity: 0.7;
+      opacity: 0.65;
+      margin-bottom: 0.35rem;
     }
 
     .video-card__title {
       font-family: var(--font-headline);
-      font-size: 1.1rem;
+      font-size: 0.95rem;
       color: var(--on-surface);
       font-weight: 700;
-      line-height: 1.3;
+      line-height: 1.35;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     /* ── PLAYER MODAL ── */
@@ -316,14 +285,11 @@
       justify-content: center;
       opacity: 0;
       visibility: hidden;
-      transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1),
-                  visibility 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: opacity 0.42s cubic-bezier(0.4, 0, 0.2, 1),
+                  visibility 0.42s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .player-modal.open {
-      opacity: 1;
-      visibility: visible;
-    }
+    .player-modal.open { opacity: 1; visibility: visible; }
 
     .player-modal__close {
       position: absolute;
@@ -349,67 +315,88 @@
       border-color: rgba(232, 202, 161, 0.3);
     }
 
-    .player-modal__wrap {
-      width: 90vw;
-      max-width: 1100px;
+    .player-modal__inner {
       display: flex;
       flex-direction: column;
+      align-items: center;
       gap: 1.5rem;
-      transform: scale(0.94) translateY(16px);
-      transition: transform 0.45s cubic-bezier(0.34, 1.2, 0.64, 1);
+      transform: scale(0.94) translateY(14px);
+      transition: transform 0.42s cubic-bezier(0.34, 1.2, 0.64, 1);
     }
 
-    .player-modal.open .player-modal__wrap {
-      transform: scale(1) translateY(0);
-    }
+    .player-modal.open .player-modal__inner { transform: scale(1) translateY(0); }
 
-    .player-modal__video {
-      width: 100%;
-      aspect-ratio: 16 / 9;
+    /* Landscape (16:9) wrapper */
+    .player-modal__iframe-wrap {
+      position: relative;
       background: #000;
       border-radius: 4px;
-      outline: none;
-      box-shadow: 0 30px 80px rgba(0, 10, 20, 0.8);
+      overflow: hidden;
+      box-shadow: 0 28px 80px rgba(0, 10, 20, 0.85);
     }
 
-    /* Custom video controls feel */
-    .player-modal__video::-webkit-media-controls {
-      background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    .player-modal__iframe-wrap.is-landscape {
+      width: 88vw;
+      max-width: 1000px;
+      aspect-ratio: 16 / 9;
+    }
+
+    /* Portrait / Shorts (9:16) wrapper */
+    .player-modal__iframe-wrap.is-portrait {
+      height: 82vh;
+      max-height: 700px;
+      aspect-ratio: 9 / 16;
+    }
+
+    .player-modal__iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
     }
 
     .player-modal__meta {
       display: flex;
       align-items: baseline;
       gap: 1rem;
+      width: 100%;
+      max-width: 1000px;
+      padding: 0 0.25rem;
     }
 
     .player-modal__index {
-      font-size: 0.65rem;
+      font-size: 0.62rem;
       letter-spacing: 0.2em;
-      color: rgba(209, 228, 254, 0.3);
+      color: rgba(209, 228, 254, 0.28);
+      flex-shrink: 0;
     }
 
     .player-modal__title {
       font-family: var(--font-headline);
-      font-size: 1.3rem;
+      font-size: 1.15rem;
       color: var(--on-surface);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .player-modal__cat {
       margin-left: auto;
-      font-size: 0.65rem;
+      font-size: 0.62rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--primary);
-      opacity: 0.7;
+      opacity: 0.65;
+      flex-shrink: 0;
     }
 
     /* ── FOOTER ── */
     .page-footer {
       border-top: 1px solid rgba(77, 70, 60, 0.1);
-      padding: 2.5rem 3rem;
       max-width: 1280px;
       margin: 0 auto;
+      padding: 2.5rem 3rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -420,48 +407,46 @@
       font-size: 0.9rem;
       letter-spacing: 0.3em;
       color: var(--primary);
-      opacity: 0.5;
+      opacity: 0.45;
     }
 
     .page-footer__copy {
       font-size: 0.6rem;
       letter-spacing: 0.12em;
-      color: rgba(209, 228, 254, 0.2);
+      color: rgba(209, 228, 254, 0.18);
     }
 
-    /* ── FADE IN ANIMATION ── */
+    /* ── FADE IN ── */
     .fade-in {
       opacity: 0;
-      transform: translateY(28px);
-      transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1),
-                  transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: translateY(24px);
+      transition: opacity 0.85s cubic-bezier(0.4, 0, 0.2, 1),
+                  transform 0.85s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .fade-in.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
 
-    .stagger-1 { transition-delay: 0.05s; }
-    .stagger-2 { transition-delay: 0.15s; }
-    .stagger-3 { transition-delay: 0.25s; }
-    .stagger-4 { transition-delay: 0.35s; }
+    .s1 { transition-delay: 0.04s; }
+    .s2 { transition-delay: 0.12s; }
+    .s3 { transition-delay: 0.20s; }
+    .s4 { transition-delay: 0.28s; }
+    .s5 { transition-delay: 0.36s; }
+    .s6 { transition-delay: 0.44s; }
 
     /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .video-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+    }
+
     @media (max-width: 768px) {
       .page-header__inner { padding: 1rem 1.5rem; }
       .header-title-wrap { display: none; }
       .page-hero { padding: 3.5rem 1.5rem 2.5rem; }
       .video-section { padding: 0 1.5rem 5rem; }
-      .video-grid { grid-template-columns: 1fr; gap: 1.5rem; }
-      .player-modal__wrap { width: 95vw; }
+      .video-grid { grid-template-columns: 1fr; }
+      .player-modal__iframe-wrap.is-landscape { width: 95vw; }
+      .player-modal__iframe-wrap.is-portrait { height: 75vh; }
       .page-footer { padding: 2rem 1.5rem; flex-direction: column; gap: 1rem; text-align: center; }
-    }
-
-    @media (max-width: 480px) {
-      .video-card__title { font-size: 0.95rem; }
-      .player-modal__title { font-size: 1rem; }
-      .player-modal__meta { flex-wrap: wrap; }
     }
   </style>
 </head>
@@ -471,7 +456,7 @@
   <header class="page-header">
     <div class="page-header__inner">
       <button class="back-btn" onclick="goBack()">
-        <span class="material-symbols-outlined" style="font-size:16px;">arrow_back</span>
+        <span class="material-symbols-outlined" style="font-size:15px;">arrow_back</span>
         Back
       </button>
       <div class="header-divider"></div>
@@ -489,10 +474,10 @@
       <div class="page-hero__label-line"></div>
       <span class="page-hero__label-text">Portfolio</span>
     </div>
-    <h1 class="page-hero__title fade-in" style="transition-delay:0.1s;">
+    <h1 class="page-hero__title fade-in" style="transition-delay:.1s;">
       Brand <em>Film</em>
     </h1>
-    <p class="page-hero__desc fade-in" style="transition-delay:0.2s;">
+    <p class="page-hero__desc fade-in" style="transition-delay:.2s;">
       브랜드의 철학과 감각을 영상으로 설계합니다.<br/>
       몰입에서 이완으로 이어지는 정서적 경험.
     </p>
@@ -500,105 +485,7 @@
 
   <!-- ── VIDEO GRID ── -->
   <section class="video-section">
-    <div class="video-grid" id="videoGrid">
-
-      <!-- Card 1 -->
-      <div class="video-card fade-in stagger-1" onclick="openPlayer(0)">
-        <div class="video-card__thumb">
-          <video
-            class="video-card__preview"
-            src="assets/video/파인프라 세로 제품소개.mp4#t=1"
-            muted
-            playsinline
-            preload="metadata"
-            onmouseover="this.play()"
-            onmouseout="this.pause();this.currentTime=1;"
-          ></video>
-          <div class="video-card__overlay"></div>
-          <div class="video-card__play">
-            <span class="material-symbols-outlined" style="font-size:28px;">play_arrow</span>
-          </div>
-          <span class="video-card__num">01 / 04</span>
-        </div>
-        <div class="video-card__info">
-          <p class="video-card__category">Brand Film</p>
-          <h2 class="video-card__title">파인프라 세로 제품소개</h2>
-        </div>
-      </div>
-
-      <!-- Card 2 -->
-      <div class="video-card fade-in stagger-2" onclick="openPlayer(1)">
-        <div class="video-card__thumb">
-          <video
-            class="video-card__preview"
-            src="assets/video/The Uninvited at the Table.mp4#t=1"
-            muted
-            playsinline
-            preload="metadata"
-            onmouseover="this.play()"
-            onmouseout="this.pause();this.currentTime=1;"
-          ></video>
-          <div class="video-card__overlay"></div>
-          <div class="video-card__play">
-            <span class="material-symbols-outlined" style="font-size:28px;">play_arrow</span>
-          </div>
-          <span class="video-card__num">02 / 04</span>
-        </div>
-        <div class="video-card__info">
-          <p class="video-card__category">Brand Film</p>
-          <h2 class="video-card__title">The Uninvited at the Table</h2>
-        </div>
-      </div>
-
-      <!-- Card 3 -->
-      <div class="video-card fade-in stagger-3" onclick="openPlayer(2)">
-        <div class="video-card__thumb">
-          <video
-            class="video-card__preview"
-            src="assets/video/경기MICE.mp4#t=1"
-            muted
-            playsinline
-            preload="metadata"
-            onmouseover="this.play()"
-            onmouseout="this.pause();this.currentTime=1;"
-          ></video>
-          <div class="video-card__overlay"></div>
-          <div class="video-card__play">
-            <span class="material-symbols-outlined" style="font-size:28px;">play_arrow</span>
-          </div>
-          <span class="video-card__num">03 / 04</span>
-        </div>
-        <div class="video-card__info">
-          <p class="video-card__category">Brand Film</p>
-          <h2 class="video-card__title">경기 MICE</h2>
-        </div>
-      </div>
-
-      <!-- Card 4 -->
-      <div class="video-card fade-in stagger-4" onclick="openPlayer(3)">
-        <div class="video-card__thumb">
-          <video
-            class="video-card__preview"
-            src="assets/video/강원랜드 메인홀 영상.mp4#t=1"
-            muted
-            playsinline
-            preload="metadata"
-            onmouseover="this.play()"
-            onmouseout="this.pause();this.currentTime=1;"
-          ></video>
-          <div class="video-card__overlay"></div>
-          <div class="video-card__play">
-            <span class="material-symbols-outlined" style="font-size:28px;">play_arrow</span>
-          </div>
-          <span class="video-card__num">04 / 04</span>
-        </div>
-        <div class="video-card__info">
-          <p class="video-card__category">Brand Film</p>
-          <h2 class="video-card__title">강원랜드 메인홀 영상</h2>
-        </div>
-      </div>
-
-    </div>
+    <div class="video-grid" id="videoGrid"></div>
   </section>
 
   <!-- ── FOOTER ── -->
@@ -614,14 +501,16 @@
     <button class="player-modal__close" id="playerClose" aria-label="닫기">
       <span class="material-symbols-outlined">close</span>
     </button>
-    <div class="player-modal__wrap">
-      <video
-        class="player-modal__video"
-        id="playerVideo"
-        controls
-        playsinline
-        preload="none"
-      ></video>
+    <div class="player-modal__inner">
+      <div class="player-modal__iframe-wrap" id="iframeWrap">
+        <iframe
+          class="player-modal__iframe"
+          id="playerIframe"
+          src=""
+          allow="autoplay; encrypted-media; fullscreen"
+          allowfullscreen
+        ></iframe>
+      </div>
       <div class="player-modal__meta">
         <span class="player-modal__index" id="playerIndex"></span>
         <h2 class="player-modal__title" id="playerTitle"></h2>
@@ -631,47 +520,81 @@
   </div>
 
   <script>
-    // ── Video data ──
+    // ── Brand Film YouTube data ──
     const videos = [
-      { src: 'assets/video/파인프라 세로 제품소개.mp4', title: '파인프라 세로 제품소개' },
-      { src: 'assets/video/The Uninvited at the Table.mp4', title: 'The Uninvited at the Table' },
-      { src: 'assets/video/경기MICE.mp4', title: '경기 MICE' },
-      { src: 'assets/video/강원랜드 메인홀 영상.mp4', title: '강원랜드 메인홀 영상' }
+      { id: 'oItUgcCpjEQ',  title: '파인프라 소개 동영상',                isShorts: true  },
+      { id: 'NmywD2ploqc',  title: '경기관광공사 ICE',                    isShorts: true  },
+      { id: '99OuAsRCE40',  title: 'The Uninvited at the Table',         isShorts: false },
+      { id: 'YNmVJVgsq0w',  title: '네온 에덴 : 디지털 크로마',           isShorts: false },
+      { id: 'LOqUFL24mrM',  title: '경기 미스터리: 숨은 코드를 찾아서 4K', isShorts: false },
+      { id: 'V97XsOyKUj0',  title: '4k 시간 속의 고요: 잔잔한 고찰',     isShorts: false }
     ];
 
-    // ── Fade-in on load ──
+    const staggerClasses = ['s1','s2','s3','s4','s5','s6'];
+
+    // ── Build grid ──
+    const grid = document.getElementById('videoGrid');
+    videos.forEach((v, i) => {
+      const thumbUrl = `https://img.youtube.com/vi/${v.id}/maxresdefault.jpg`;
+      const fallback  = `https://img.youtube.com/vi/${v.id}/hqdefault.jpg`;
+      const card = document.createElement('div');
+      card.className = `video-card fade-in ${staggerClasses[i]}`;
+      card.onclick = () => openPlayer(i);
+      card.innerHTML = `
+        <div class="video-card__thumb">
+          <img
+            class="video-card__thumb-img"
+            src="${thumbUrl}"
+            alt="${v.title}"
+            loading="lazy"
+            onerror="this.onerror=null;this.src='${fallback}'"
+          />
+          <div class="video-card__overlay"></div>
+          <div class="video-card__play">
+            <span class="material-symbols-outlined" style="font-size:28px;">play_arrow</span>
+          </div>
+          <span class="video-card__num">0${i+1} / 0${videos.length}</span>
+        </div>
+        <div class="video-card__info">
+          <p class="video-card__category">Brand Film</p>
+          <h2 class="video-card__title">${v.title}</h2>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+
+    // ── Fade-in observer ──
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-    }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
+    }, { threshold: 0.1, rootMargin: '0px 0px -20px 0px' });
 
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
     // ── Player modal ──
-    const modal = document.getElementById('playerModal');
-    const vid   = document.getElementById('playerVideo');
-    const titleEl = document.getElementById('playerTitle');
-    const indexEl = document.getElementById('playerIndex');
+    const modal     = document.getElementById('playerModal');
+    const iframe    = document.getElementById('playerIframe');
+    const iframeWrap = document.getElementById('iframeWrap');
+    const titleEl   = document.getElementById('playerTitle');
+    const indexEl   = document.getElementById('playerIndex');
 
     function openPlayer(i) {
       const v = videos[i];
-      vid.src = v.src;
+      iframe.src = `https://www.youtube.com/embed/${v.id}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
       titleEl.textContent = v.title;
-      indexEl.textContent = `0${i + 1} / 0${videos.length}`;
+      indexEl.textContent = `0${i+1} / 0${videos.length}`;
+      iframeWrap.className = `player-modal__iframe-wrap ${v.isShorts ? 'is-portrait' : 'is-landscape'}`;
       modal.classList.add('open');
       document.body.style.overflow = 'hidden';
-      vid.play().catch(() => {});
     }
 
     function closePlayer() {
       modal.classList.remove('open');
       document.body.style.overflow = '';
-      vid.pause();
-      vid.src = '';
+      iframe.src = '';
     }
 
     document.getElementById('playerClose').addEventListener('click', closePlayer);
     modal.addEventListener('click', e => { if (e.target === modal) closePlayer(); });
-
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape' && modal.classList.contains('open')) closePlayer();
     });

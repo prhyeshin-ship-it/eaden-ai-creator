@@ -1464,6 +1464,8 @@
       overflow-y: auto;
       padding-bottom: 2rem;
       padding-right: 1rem;
+      flex: 1;
+      min-height: 0;
     }
 
     .gallery-modal__grid::-webkit-scrollbar {
@@ -1504,6 +1506,20 @@
     }
 
     .gallery-thumb:hover .gallery-thumb__video {
+      filter: grayscale(0);
+      transform: scale(1.05);
+    }
+
+    .gallery-thumb__img {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      filter: grayscale(0.5);
+      transition: filter 0.5s ease, transform 0.8s ease;
+      display: block;
+    }
+
+    .gallery-thumb:hover .gallery-thumb__img {
       filter: grayscale(0);
       transform: scale(1.05);
     }
