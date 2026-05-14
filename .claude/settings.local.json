@@ -44,7 +44,16 @@
       "Bash(supabase orgs *)",
       "Bash(supabase link *)",
       "Bash(git commit -m ' *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(curl *)",
+      "Bash(supabase db *)",
+      "Bash(supabase migration *)",
+      "Bash(git commit *)",
+      "Bash(supabase help *)",
+      "Read(//Users/eaden/.supabase/**)",
+      "Bash(security find-generic-password *)",
+      "Bash(security find-internet-password *)",
+      "Bash(security dump-keychain *)"
     ]
   }
 }

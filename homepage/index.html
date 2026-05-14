@@ -1677,7 +1677,7 @@
 
       <div class="media-grid fade-section">
         <!-- Card 1 -->
-        <div class="media-card stagger-1" onclick="openVideoGallery('Brand Film')">
+        <div class="media-card stagger-1" onclick="window.open('brand-film.html','_blank')">
           <div class="media-card__thumb">
             <img class="media-card__img" src="assets/image/media_brand_film.png" alt="Brand Film"/>
             <div class="media-card__overlay"></div>
@@ -1911,6 +1911,7 @@
     <div class="viewer__content">
       <img class="viewer__image" id="viewerImage" src="" alt=""/>
       <video class="viewer__image" id="viewerVideo" src="" controls style="display: none; max-height: 75vh; border-radius: 2px;"></video>
+      <iframe class="viewer__image" id="viewerIframe" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="display: none; aspect-ratio: 16/9; width: 100%; max-width: 1200px; max-height: 75vh; border-radius: 2px; background: #000;"></iframe>
       <div class="viewer__caption">
         <h3 class="viewer__caption-title" id="viewerTitle"></h3>
         <p class="viewer__caption-desc" id="viewerDesc"></p>
@@ -2020,23 +2021,34 @@
     const viewerClose = document.getElementById('viewerClose');
     const viewerImage = document.getElementById('viewerImage');
     const viewerVideo = document.getElementById('viewerVideo');
+    const viewerIframe = document.getElementById('viewerIframe');
     const viewerTitle = document.getElementById('viewerTitle');
     const viewerDesc = document.getElementById('viewerDesc');
 
-    function openViewer(src, title, desc, isVideo = false) {
-      if (isVideo) {
-        viewerImage.style.display = 'none';
+    function openViewer(src, title, desc, type = 'image') {
+      viewerImage.style.display = 'none';
+      viewerVideo.style.display = 'none';
+      if (viewerIframe) viewerIframe.style.display = 'none';
+      
+      if (viewerVideo) {
+        viewerVideo.pause();
+        viewerVideo.src = '';
+      }
+      if (viewerIframe) viewerIframe.src = '';
+
+      if (type === 'video' || type === true) {
         viewerVideo.style.display = 'block';
         viewerVideo.src = src;
         viewerVideo.play();
+      } else if (type === 'youtube') {
+        viewerIframe.style.display = 'block';
+        viewerIframe.src = `https://www.youtube.com/embed/${src}?autoplay=1`;
       } else {
-        viewerVideo.style.display = 'none';
-        viewerVideo.pause();
-        viewerVideo.src = '';
         viewerImage.style.display = 'block';
         viewerImage.src = src;
         viewerImage.alt = title;
       }
+      
       viewerTitle.textContent = title;
       viewerDesc.textContent = desc;
       viewer.classList.add('open');
@@ -2054,6 +2066,7 @@
         viewerVideo.pause();
         viewerVideo.src = '';
       }
+      if (viewerIframe) viewerIframe.src = '';
     }
 
     viewerClose.addEventListener('click', closeViewer);
@@ -2066,10 +2079,12 @@
     // ========================================
     const videoData = {
       'Brand Film': [
-        { src: 'assets/video/파인프라 세로 제품소개.mp4', title: '파인프라 세로 제품소개' },
-        { src: 'assets/video/The Uninvited at the Table.mp4', title: 'The Uninvited at the Table' },
-        { src: 'assets/video/경기MICE.mp4', title: '경기MICE' },
-        { src: 'assets/video/강원랜드 메인홀 영상.mp4', title: '강원랜드 메인홀 영상' }
+        { type: 'youtube', id: 'oItUgcCpjEQ', title: '파인프라 소개 동영상' },
+        { type: 'youtube', id: 'NmywD2ploqc', title: '경기관광공사 ICE' },
+        { type: 'youtube', id: '99OuAsRCE40', title: 'The Uninvited at the Table' },
+        { type: 'youtube', id: 'YNmVJVgsq0w', title: '네온 에덴 :디지털 크로마' },
+        { type: 'youtube', id: 'LOqUFL24mrM', title: '경기 미스터리: 숨은 코드를 찾아서 4K' },
+        { type: 'youtube', id: 'V97XsOyKUj0', title: '4k 시간 속의 고요: 잔잔한 고찰' }
       ],
       'Short Form Content': [
         { src: 'assets/video/#5_shortsF.mp4', title: '#5 Shorts F' },
@@ -2101,18 +2116,34 @@
         videos.forEach(video => {
           const thumb = document.createElement('div');
           thumb.className = 'gallery-thumb';
-          thumb.onclick = () => openViewer(video.src, video.title, category, true);
           
-          thumb.innerHTML = `
-            <video class="gallery-thumb__video" src="${video.src}#t=0.1" muted loop playsinline preload="metadata" onmouseover="this.play()" onmouseout="this.pause()"></video>
-            <div class="gallery-thumb__overlay"></div>
-            <div class="gallery-thumb__play">
-              <span class="material-symbols-outlined">play_arrow</span>
-            </div>
-            <div class="gallery-thumb__info">
-              <h4 class="gallery-thumb__title">${video.title}</h4>
-            </div>
-          `;
+          if (video.type === 'youtube') {
+            thumb.onclick = () => openViewer(video.id, video.title, category, 'youtube');
+            const thumbUrl = `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`;
+            thumb.innerHTML = `
+              <img class="gallery-thumb__video" src="${thumbUrl}" alt="${video.title}" style="object-fit: cover;" />
+              <div class="gallery-thumb__overlay"></div>
+              <div class="gallery-thumb__play">
+                <span class="material-symbols-outlined">play_arrow</span>
+              </div>
+              <div class="gallery-thumb__info">
+                <h4 class="gallery-thumb__title">${video.title}</h4>
+              </div>
+            `;
+          } else {
+            thumb.onclick = () => openViewer(video.src, video.title, category, 'video');
+            thumb.innerHTML = `
+              <video class="gallery-thumb__video" src="${video.src}#t=0.1" muted loop playsinline preload="metadata" onmouseover="this.play()" onmouseout="this.pause()"></video>
+              <div class="gallery-thumb__overlay"></div>
+              <div class="gallery-thumb__play">
+                <span class="material-symbols-outlined">play_arrow</span>
+              </div>
+              <div class="gallery-thumb__info">
+                <h4 class="gallery-thumb__title">${video.title}</h4>
+              </div>
+            `;
+          }
+          
           galleryModalGrid.appendChild(thumb);
         });
       }
