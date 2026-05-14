@@ -53,7 +53,13 @@
       "Read(//Users/eaden/.supabase/**)",
       "Bash(security find-generic-password *)",
       "Bash(security find-internet-password *)",
-      "Bash(security dump-keychain *)"
+      "Bash(security dump-keychain *)",
+      "Bash(open index.html)",
+      "Bash(git remote *)",
+      "Bash(node --input-type=module)",
+      "Bash(python3 -m http.server 8765)",
+      "Bash(open \"http://localhost:8765/index.html\")",
+      "Bash(kill %1)"
     ]
   }
 }

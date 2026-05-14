@@ -1641,18 +1641,14 @@
   <section class="hero" id="hero">
     <div class="hero__video-container">
       <iframe id="ytPlayer" class="hero__yt-iframe"
-        src="https://www.youtube.com/embed/jKe5MiMtk-Q?autoplay=1&mute=1&loop=1&playlist=jKe5MiMtk-Q&controls=0&rel=0&modestbranding=1&iv_load_policy=3&enablejsapi=1&playsinline=1&origin=https://eaden-ai-creator.vercel.app"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        referrerpolicy="strict-origin-when-cross-origin"
+        src="https://www.youtube.com/embed/jKe5MiMtk-Q?autoplay=1&mute=1&loop=1&playlist=jKe5MiMtk-Q&controls=0&rel=0&modestbranding=1&iv_load_policy=3&playsinline=1&showinfo=0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        frameborder="0"
         allowfullscreen
         title="Eaden Hero Video">
       </iframe>
     </div>
     <div class="hero__overlay"></div>
-
-    <button class="hero__mute-btn" id="muteBtn" aria-label="사운드 토글">
-      <span class="material-symbols-outlined" id="muteIcon">volume_off</span>
-    </button>
   </section>
 
   <!-- ========================================
@@ -1996,37 +1992,9 @@
     mobileOverlay.addEventListener('click', closeMobileNav);
 
     // ========================================
-    // 3. HERO VIDEO / MUTE TOGGLE (YouTube IFrame API)
+    // 3. HERO VIDEO (simple autoplay, no JS API needed)
     // ========================================
-    const muteBtn = document.getElementById('muteBtn');
-    const muteIcon = document.getElementById('muteIcon');
-    let isMuted = true;
-    let ytPlayer = null;
-
-    // YouTube IFrame API 로드
-    const ytScript = document.createElement('script');
-    ytScript.src = 'https://www.youtube.com/iframe_api';
-    document.head.appendChild(ytScript);
-
-    window.onYouTubeIframeAPIReady = function () {
-      ytPlayer = new YT.Player('ytPlayer', {
-        events: {
-          onReady: (e) => e.target.mute(),
-        },
-      });
-    };
-
-    muteBtn.addEventListener('click', () => {
-      if (!ytPlayer || typeof ytPlayer.unMute !== 'function') return;
-      isMuted = !isMuted;
-      if (isMuted) {
-        ytPlayer.mute();
-      } else {
-        ytPlayer.unMute();
-        ytPlayer.setVolume(100);
-      }
-      muteIcon.textContent = isMuted ? 'volume_off' : 'volume_up';
-    });
+    // Note: enablejsapi removed to prevent Error 153 on Vercel
 
     // ========================================
     // 4. SCROLL FADE-IN (IntersectionObserver)
@@ -2152,17 +2120,15 @@
           thumb.className = 'gallery-thumb';
           
           if (video.type === 'youtube') {
+            const thumbUrl = `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`;
+            const ytLink = `https://www.youtube.com/watch?v=${video.id}`;
+            thumb.style.cursor = 'pointer';
+            thumb.onclick = () => window.open(ytLink, '_blank');
             thumb.innerHTML = `
-              <div class="gallery-thumb__embed">
-                <iframe
-                  class="gallery-thumb__iframe"
-                  src="https://www.youtube.com/embed/${video.id}?rel=0"
-                  title="${video.title}"
-                  frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowfullscreen
-                  loading="lazy"
-                ></iframe>
+              <img class="gallery-thumb__video" src="${thumbUrl}" alt="${video.title}" style="object-fit:cover;" />
+              <div class="gallery-thumb__overlay"></div>
+              <div class="gallery-thumb__play">
+                <span class="material-symbols-outlined">play_arrow</span>
               </div>
               <div class="gallery-thumb__info">
                 <h4 class="gallery-thumb__title">${video.title}</h4>
