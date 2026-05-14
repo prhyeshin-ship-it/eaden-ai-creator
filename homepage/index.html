@@ -2136,18 +2136,27 @@
           thumb.className = 'gallery-thumb';
           
           if (video.type === 'youtube') {
-            thumb.onclick = () => openViewer(video.id, video.title, category, 'youtube');
+            // Shorts use portrait ratio, regular videos use landscape
+            const isShort = ['oItUgcCpjEQ','NmywD2ploqc','PTorELf4Gtc','lD3S8gsMPjE','19YNmwJsYVY','csVE_GDOgss'].includes(video.id);
             const thumbUrl = `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`;
+            const ytUrl = `https://www.youtube.com/embed/${video.id}?autoplay=1&rel=0`;
+            
             thumb.innerHTML = `
-              <img class="gallery-thumb__video" src="${thumbUrl}" alt="${video.title}" style="object-fit: cover;" />
-              <div class="gallery-thumb__overlay"></div>
-              <div class="gallery-thumb__play">
-                <span class="material-symbols-outlined">play_arrow</span>
+              <div class="yt-thumb-wrapper" style="position:relative;">
+                <img class="gallery-thumb__video" src="${thumbUrl}" alt="${video.title}" style="object-fit:cover;" />
+                <div class="gallery-thumb__overlay"></div>
+                <div class="gallery-thumb__play">
+                  <span class="material-symbols-outlined">play_arrow</span>
+                </div>
               </div>
               <div class="gallery-thumb__info">
                 <h4 class="gallery-thumb__title">${video.title}</h4>
               </div>
             `;
+            // Click: swap thumbnail with iframe player
+            thumb.querySelector('.yt-thumb-wrapper').addEventListener('click', function() {
+              this.innerHTML = `<iframe src="${ytUrl}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="width:100%;aspect-ratio:${isShort ? '9/16' : '16/9'};display:block;border-radius:4px;"></iframe>`;
+            });
           } else {
             thumb.onclick = () => openViewer(video.src, video.title, category, 'video');
             thumb.innerHTML = `
