@@ -1490,10 +1490,25 @@
 
     .gallery-thumb {
       position: relative;
-      cursor: pointer;
       border-radius: 4px;
       overflow: hidden;
       background: var(--surface-container-low);
+    }
+
+    /* iframe embed inside gallery thumb */
+    .gallery-thumb__embed {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      background: #000;
+    }
+
+    .gallery-thumb__iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
     }
 
     .gallery-thumb__video {
@@ -1693,7 +1708,7 @@
 
       <div class="media-grid fade-section">
         <!-- Card 1 -->
-        <div class="media-card stagger-1" onclick="openVideoGallery('Brand Film')">
+        <div class="media-card stagger-1" onclick="window.open('brand-film.html','_blank')">
           <div class="media-card__thumb">
             <img class="media-card__img" src="assets/image/media_brand_film.png" alt="Brand Film"/>
             <div class="media-card__overlay"></div>
@@ -2136,27 +2151,22 @@
           thumb.className = 'gallery-thumb';
           
           if (video.type === 'youtube') {
-            // Shorts use portrait ratio, regular videos use landscape
-            const isShort = ['oItUgcCpjEQ','NmywD2ploqc','PTorELf4Gtc','lD3S8gsMPjE','19YNmwJsYVY','csVE_GDOgss'].includes(video.id);
-            const thumbUrl = `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`;
-            const ytUrl = `https://www.youtube.com/embed/${video.id}?autoplay=1&rel=0`;
-            
             thumb.innerHTML = `
-              <div class="yt-thumb-wrapper" style="position:relative;">
-                <img class="gallery-thumb__video" src="${thumbUrl}" alt="${video.title}" style="object-fit:cover;" />
-                <div class="gallery-thumb__overlay"></div>
-                <div class="gallery-thumb__play">
-                  <span class="material-symbols-outlined">play_arrow</span>
-                </div>
+              <div class="gallery-thumb__embed">
+                <iframe
+                  class="gallery-thumb__iframe"
+                  src="https://www.youtube.com/embed/${video.id}?rel=0"
+                  title="${video.title}"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen
+                  loading="lazy"
+                ></iframe>
               </div>
               <div class="gallery-thumb__info">
                 <h4 class="gallery-thumb__title">${video.title}</h4>
               </div>
             `;
-            // Click: swap thumbnail with iframe player
-            thumb.querySelector('.yt-thumb-wrapper').addEventListener('click', function() {
-              this.innerHTML = `<iframe src="${ytUrl}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="width:100%;aspect-ratio:${isShort ? '9/16' : '16/9'};display:block;border-radius:4px;"></iframe>`;
-            });
           } else {
             thumb.onclick = () => openViewer(video.src, video.title, category, 'video');
             thumb.innerHTML = `
