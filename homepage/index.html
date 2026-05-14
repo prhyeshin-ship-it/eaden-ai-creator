@@ -1392,6 +1392,172 @@
     .stagger-2 { transition-delay: 0.2s; }
     .stagger-3 { transition-delay: 0.3s; }
     .stagger-4 { transition-delay: 0.4s; }
+
+    /* ===================================
+       14. VIDEO GALLERY MODAL
+       =================================== */
+    .gallery-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 2500;
+      background: rgba(0, 15, 31, 0.95);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+
+    .gallery-modal.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .gallery-modal__close {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      background: rgba(0, 20, 39, 0.6);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(77, 70, 60, 0.15);
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: background 0.3s ease;
+    }
+
+    .gallery-modal__close:hover {
+      background: rgba(0, 20, 39, 0.9);
+    }
+
+    .gallery-modal__content {
+      width: 90vw;
+      max-width: 1200px;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .gallery-modal__title {
+      font-family: var(--font-headline);
+      font-size: 2rem;
+      color: var(--primary);
+      text-align: center;
+      letter-spacing: 0.05em;
+    }
+
+    .gallery-modal__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      overflow-y: auto;
+      padding-bottom: 2rem;
+      padding-right: 1rem;
+    }
+
+    .gallery-modal__grid::-webkit-scrollbar {
+      width: 6px;
+    }
+    .gallery-modal__grid::-webkit-scrollbar-track {
+      background: rgba(0, 20, 39, 0.4);
+      border-radius: 3px;
+    }
+    .gallery-modal__grid::-webkit-scrollbar-thumb {
+      background: var(--outline-variant);
+      border-radius: 3px;
+    }
+
+    .gallery-modal__empty {
+      text-align: center;
+      color: rgba(209, 228, 254, 0.6);
+      font-family: var(--font-body);
+      font-size: 1.1rem;
+      padding: 4rem 0;
+    }
+
+    .gallery-thumb {
+      position: relative;
+      cursor: pointer;
+      border-radius: 4px;
+      overflow: hidden;
+      background: var(--surface-container-low);
+    }
+
+    .gallery-thumb__video {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      filter: grayscale(0.5);
+      transition: filter 0.5s ease, transform 0.8s ease;
+      display: block;
+    }
+
+    .gallery-thumb:hover .gallery-thumb__video {
+      filter: grayscale(0);
+      transform: scale(1.05);
+    }
+
+    .gallery-thumb__overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 20, 39, 0.2);
+      transition: background 0.4s ease;
+    }
+
+    .gallery-thumb:hover .gallery-thumb__overlay {
+      background: transparent;
+    }
+
+    .gallery-thumb__play {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.8);
+      width: 48px;
+      height: 48px;
+      background: rgba(0, 20, 39, 0.6);
+      backdrop-filter: blur(10px);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      opacity: 0;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .gallery-thumb:hover .gallery-thumb__play {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .gallery-thumb__info {
+      padding: 1rem;
+      background: var(--surface-container);
+      position: relative;
+      z-index: 2;
+    }
+
+    .gallery-thumb__title {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: var(--on-surface);
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   </style>
 </head>
 <body>
@@ -1511,36 +1677,36 @@
 
       <div class="media-grid fade-section">
         <!-- Card 1 -->
-        <div class="media-card stagger-1" onclick="openViewer('assets/image/media_brand_film.png', 'Brand Film', '')">
+        <div class="media-card stagger-1" onclick="openVideoGallery('Brand Film')">
           <div class="media-card__thumb">
             <img class="media-card__img" src="assets/image/media_brand_film.png" alt="Brand Film"/>
             <div class="media-card__overlay"></div>
             <div class="media-card__play">
-               <span class="material-symbols-outlined">play_arrow</span>
+               <span class="material-symbols-outlined">grid_view</span>
             </div>
           </div>
           <h3 class="media-card__title">Brand Film</h3>
         </div>
 
         <!-- Card 2 -->
-        <div class="media-card stagger-2" onclick="openViewer('assets/image/media_photo_restore.png', 'Photo Restoration', '')">
+        <div class="media-card stagger-2" onclick="openVideoGallery('Photo Restoration')">
           <div class="media-card__thumb">
             <img class="media-card__img" src="assets/image/media_photo_restore.png" alt="Photo Restoration"/>
             <div class="media-card__overlay"></div>
             <div class="media-card__play">
-              <span class="material-symbols-outlined">play_arrow</span>
+              <span class="material-symbols-outlined">grid_view</span>
             </div>
           </div>
           <h3 class="media-card__title">Photo Restoration</h3>
         </div>
 
         <!-- Card 3 -->
-        <div class="media-card stagger-3" onclick="openViewer('assets/image/media_shorts.png', 'Short Form Content', '')">
+        <div class="media-card stagger-3" onclick="openVideoGallery('Short Form Content')">
           <div class="media-card__thumb">
             <img class="media-card__img" src="assets/image/media_shorts.png" alt="Short Form Content"/>
             <div class="media-card__overlay"></div>
             <div class="media-card__play">
-              <span class="material-symbols-outlined">play_arrow</span>
+              <span class="material-symbols-outlined">grid_view</span>
             </div>
           </div>
           <h3 class="media-card__title">Short Form Content</h3>
@@ -1718,6 +1884,24 @@
   </footer>
 
   <!-- ========================================
+       VIDEO GALLERY MODAL
+       ======================================== -->
+  <div class="gallery-modal" id="galleryModal">
+    <button class="gallery-modal__close" id="galleryModalClose" aria-label="닫기">
+      <span class="material-symbols-outlined">close</span>
+    </button>
+    <div class="gallery-modal__content">
+      <h2 class="gallery-modal__title" id="galleryModalTitle">Category</h2>
+      <div class="gallery-modal__grid" id="galleryModalGrid">
+        <!-- Thumbnails will be injected here via JS -->
+      </div>
+      <div class="gallery-modal__empty" id="galleryModalEmpty" style="display: none;">
+        <p>준비 중입니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================
        IMMERSIVE VIEWER MODAL
        ======================================== -->
   <div class="viewer" id="viewer">
@@ -1726,6 +1910,7 @@
     </button>
     <div class="viewer__content">
       <img class="viewer__image" id="viewerImage" src="" alt=""/>
+      <video class="viewer__image" id="viewerVideo" src="" controls style="display: none; max-height: 75vh; border-radius: 2px;"></video>
       <div class="viewer__caption">
         <h3 class="viewer__caption-title" id="viewerTitle"></h3>
         <p class="viewer__caption-desc" id="viewerDesc"></p>
@@ -1834,12 +2019,24 @@
     const viewer = document.getElementById('viewer');
     const viewerClose = document.getElementById('viewerClose');
     const viewerImage = document.getElementById('viewerImage');
+    const viewerVideo = document.getElementById('viewerVideo');
     const viewerTitle = document.getElementById('viewerTitle');
     const viewerDesc = document.getElementById('viewerDesc');
 
-    function openViewer(src, title, desc) {
-      viewerImage.src = src;
-      viewerImage.alt = title;
+    function openViewer(src, title, desc, isVideo = false) {
+      if (isVideo) {
+        viewerImage.style.display = 'none';
+        viewerVideo.style.display = 'block';
+        viewerVideo.src = src;
+        viewerVideo.play();
+      } else {
+        viewerVideo.style.display = 'none';
+        viewerVideo.pause();
+        viewerVideo.src = '';
+        viewerImage.style.display = 'block';
+        viewerImage.src = src;
+        viewerImage.alt = title;
+      }
       viewerTitle.textContent = title;
       viewerDesc.textContent = desc;
       viewer.classList.add('open');
@@ -1848,7 +2045,15 @@
 
     function closeViewer() {
       viewer.classList.remove('open');
-      document.body.style.overflow = '';
+      if (typeof galleryModal !== 'undefined' && galleryModal.classList.contains('open')) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+      }
+      if (viewerVideo) {
+        viewerVideo.pause();
+        viewerVideo.src = '';
+      }
     }
 
     viewerClose.addEventListener('click', closeViewer);
@@ -1856,11 +2061,88 @@
       if (e.target === viewer) closeViewer();
     });
 
+    // ========================================
+    // 5.1 VIDEO GALLERY MODAL
+    // ========================================
+    const videoData = {
+      'Brand Film': [
+        { src: 'assets/video/파인프라 세로 제품소개.mp4', title: '파인프라 세로 제품소개' },
+        { src: 'assets/video/The Uninvited at the Table.mp4', title: 'The Uninvited at the Table' },
+        { src: 'assets/video/경기MICE.mp4', title: '경기MICE' },
+        { src: 'assets/video/강원랜드 메인홀 영상.mp4', title: '강원랜드 메인홀 영상' }
+      ],
+      'Short Form Content': [
+        { src: 'assets/video/#5_shortsF.mp4', title: '#5 Shorts F' },
+        { src: 'assets/video/home_video.mp4', title: 'Home Video' },
+        { src: 'assets/video/효녀심청 .mp4', title: '효녀심청' }
+      ],
+      'Photo Restoration': []
+    };
+
+    const galleryModal = document.getElementById('galleryModal');
+    const galleryModalClose = document.getElementById('galleryModalClose');
+    const galleryModalTitle = document.getElementById('galleryModalTitle');
+    const galleryModalGrid = document.getElementById('galleryModalGrid');
+    const galleryModalEmpty = document.getElementById('galleryModalEmpty');
+
+    function openVideoGallery(category) {
+      galleryModalTitle.textContent = category;
+      galleryModalGrid.innerHTML = '';
+      
+      const videos = videoData[category] || [];
+      
+      if (videos.length === 0) {
+        galleryModalGrid.style.display = 'none';
+        galleryModalEmpty.style.display = 'block';
+      } else {
+        galleryModalGrid.style.display = 'grid';
+        galleryModalEmpty.style.display = 'none';
+        
+        videos.forEach(video => {
+          const thumb = document.createElement('div');
+          thumb.className = 'gallery-thumb';
+          thumb.onclick = () => openViewer(video.src, video.title, category, true);
+          
+          thumb.innerHTML = `
+            <video class="gallery-thumb__video" src="${video.src}#t=0.1" muted loop playsinline preload="metadata" onmouseover="this.play()" onmouseout="this.pause()"></video>
+            <div class="gallery-thumb__overlay"></div>
+            <div class="gallery-thumb__play">
+              <span class="material-symbols-outlined">play_arrow</span>
+            </div>
+            <div class="gallery-thumb__info">
+              <h4 class="gallery-thumb__title">${video.title}</h4>
+            </div>
+          `;
+          galleryModalGrid.appendChild(thumb);
+        });
+      }
+      
+      galleryModal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeVideoGallery() {
+      galleryModal.classList.remove('open');
+      if (!viewer.classList.contains('open')) {
+        document.body.style.overflow = '';
+      }
+    }
+
+    galleryModalClose.addEventListener('click', closeVideoGallery);
+    galleryModal.addEventListener('click', (e) => {
+      if (e.target === galleryModal) closeVideoGallery();
+    });
+
     // ESC key
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
-        closeViewer();
-        closeMobileNav();
+        if (viewer.classList.contains('open')) {
+          closeViewer();
+        } else if (typeof galleryModal !== 'undefined' && galleryModal.classList.contains('open')) {
+          closeVideoGallery();
+        } else {
+          closeMobileNav();
+        }
       }
     });
 
